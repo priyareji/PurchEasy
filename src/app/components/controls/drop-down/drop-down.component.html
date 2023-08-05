@@ -1,0 +1,63 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+	<!-- <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+    {{field?.fieldCaption}}
+    <span *ngIf="field?.isRequired">*</span>
+  </mat-label> -->
+	<div fxLayout="row" fxLayoutAlign="start start">
+		<mat-form-field [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel"
+			[appearance]="field?.additionalMetaData?.fieldConfig?.appearance">
+			<mat-label
+				*ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+				{{field?.fieldCaption}}
+			</mat-label>
+			<mat-select [placeholder]="field.fieldPlaceholder"
+				[matTooltip]="(control.disabled) ? '' : field.fieldHelpText" [formControl]="control"
+				[multiple]="field.isMultiple" [required]="field.isRequired" #matSelectList>
+
+				<div *ngIf="field?.options?.length === 0 && field?.isRequired">
+					<mat-option>
+						{{ locale.translate('nothing_to_show') }}
+					</mat-option>
+				</div>
+
+				<div *ngIf="!field?.isRequired && field?.additionalMetaData?.isNone && !field.isMultiple">
+					<mat-option value="none">
+						{{ locale.translate('none') }}
+					</mat-option>
+				</div>
+
+				<div *ngIf="field.options.length">
+					<mat-option *ngIf="field.isMultiple && field.additionalMetaData.showSelectAll" value="selectAll"
+						#matSelectAll>
+						{{ locale.translate('select_all') }}
+					</mat-option>
+					<ng-container *ngFor="let data of field?.options">
+						<mat-option *ngIf="!data.groupName" [matTooltip]="data.value" [disabled]="data.disabled"
+							[value]="data.key">
+							{{data.value}}
+						</mat-option>
+						<ng-container *ngIf="data.groupName && data?.options?.length">
+							<mat-optgroup [label]="data.groupName" [disabled]="data.disabled">
+								<mat-option *ngFor="let option of data.options" [value]="option.key"
+									[matTooltip]="option.value">
+									{{option.value}}
+								</mat-option>
+							</mat-optgroup>
+						</ng-container>
+					</ng-container>
+				</div>
+			</mat-select>
+			<mat-hint
+				*ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+				{{field.fieldHelpText}}</mat-hint>
+			<mat-error *ngIf="control.errors && control.touched"
+				[innerHtml]="controlFunctions.validationMsg(control, field)">
+			</mat-error>
+		</mat-form-field>
+
+		<ng-container *ngIf="field?.helpLine?.length">
+			<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+				(helpLineEmit)="helpLineData($event)"></app-help-line>
+		</ng-container>
+	</div>
+</div>

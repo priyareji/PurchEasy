@@ -1,0 +1,55 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+::ng-deep .mat-snack-bar-container {
+	padding: 0;
+}
+::ng-deep .mat-snack-bar-handset {
+	.mat-snack-bar-container {
+
+	}
+}
+
+.snackbar {
+	padding: 14px;
+	max-height: 50px;
+
+	.alert-msg {
+		@extend %body-text;
+		color: $primary-one;
+	}
+
+	.close-btn {
+		@extend %custom-icon-btn;
+
+		mat-icon {
+			@extend %custom-mat-icon;
+			color: $primary-one;
+			font-size: 18px;
+		}
+	}
+
+	&.success {
+		background-color: #ecf8ea;
+		.snack-icon {
+			color: $success;
+		}
+	}
+
+	&.error {
+		background-color: #ffe7e8;
+		.snack-icon {
+			color: $error;
+		}
+	}
+
+	&.warn {
+	}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.mat-snack-bar-handset .mat-snack-bar-container {
+
+	}
+}

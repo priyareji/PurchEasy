@@ -1,0 +1,72 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" class="custom-field" [id]="field?.fieldColumn">
+  <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+    {{field?.fieldCaption}}
+    <span *ngIf="field?.isRequired">*</span>
+  </mat-label>
+  <div class="multi-file-container" fxLayout="row" fxLayoutAlign="start start">
+
+    <div fxLayout="column" fxFlex="1 1" fxFlex.xs="100" fxLayoutAlign="start stretch" fxLayoutGap="5px"
+      class="multi-file-uploader">
+      <input type="file" #file [id]="field?.fieldColumn" style="display: none;" (change)="uploadFile($event)"
+        [accept]="field?.additionalMetaData?.supportedType">
+      <ng-container *ngIf="!selectedFormat">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="multi-file-uploader-info"
+          (click)="triggerFile(file)" appDrag (files)="uploadFile($event)">
+          <div class="drop-box-title">{{locale.translate('drop_file_info')}}</div>
+          <div class="drop-box-help-text" fxLayout.xs="column" fxLayoutAlign.xs="start stretch" fxLayout="row"
+            fxLayoutAlign="center center" fxLayoutGap="5px">
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+              <label>{{locale.translate('supported_formats')}}</label>
+              <p>{{helpText.type}}</p>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+              <label>{{locale.translate('max_size')}}</label>
+              <p>{{helpText.size}}</p>
+            </div>
+          </div>
+        </div>
+        <mat-error *ngIf="control?.errors && control?.touched"
+          [innerHtml]="controlFunctions.validationMsg(control, field)">
+        </mat-error>
+      </ng-container>
+
+      <ng-container *ngIf="selectedFormat">
+        <div>
+          <ng-container *ngIf="selectedFormat === 'document'">
+            <app-file-upload [field]="fileField" [control]="form?.controls[fileField?.fieldColumn]" [multiType]="true"
+              (helpLineEmit)="helpLineData($event)" [id]="fileField?.fieldColumn"
+              [fxFlex]="field?.additionalMetaData?.fieldConfig?.fxFlex || 'auto'">
+            </app-file-upload>
+          </ng-container>
+          <ng-container *ngIf="selectedFormat === 'image'">
+            <app-image-upload [field]="fileField" [control]="form?.controls[fileField?.fieldColumn]" [multiType]="true"
+              (helpLineEmit)="helpLineData($event)" [id]="fileField?.fieldColumn"
+              [fxFlex]="field?.additionalMetaData?.fieldConfig?.fxFlex || 'auto'">
+            </app-image-upload>
+          </ng-container>
+          <!-- <ng-container *ngIf="selectedFormat === 'audio'">
+						<app-audio-upload [field]="fileField" [control]="form?.controls[fileField?.fieldColumn]" [multiType]="true"
+							(helpLineEmit)="helpLineData($event)" [id]="fileField?.fieldColumn"
+							[fxFlex]="field?.additionalMetaData?.fieldConfig?.fxFlex || 'auto'"></app-audio-upload>
+					</ng-container>
+					<ng-container *ngIf="selectedFormat === 'video'">
+						<app-video-upload [field]="fileField" [control]="form?.controls[fileField?.fieldColumn]" [multiType]="true"
+							(helpLineEmit)="helpLineData($event)" [id]="fileField?.fieldColumn"
+							[fxFlex]="field?.additionalMetaData?.fieldConfig?.fxFlex || 'auto'"></app-video-upload>
+					</ng-container> -->
+        </div>
+        <div class="options" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <span (click)="remove(file)">{{ locale.translate('remove') }}</span>
+          <!-- <span>Change</span> -->
+        </div>
+
+      </ng-container>
+
+    </div>
+
+    <!-- <ng-container *ngIf="field?.helpLine?.length">
+			<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+				(helpLineEmit)="helpLineData($event)"></app-help-line>
+		</ng-container> -->
+  </div>
+</div>

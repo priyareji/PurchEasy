@@ -1,0 +1,17 @@
+<span class="rate-poor" *ngIf="field?.additionalMetaData?.showRatingCaption">{{ locale.translate('poor') }}</span>
+<span (mouseleave)="resetHovered()" class="rating" [class.disabled]="disabled" [class.readonly]="readonly" tabindex="0"
+	role="slider" aria-valuemin="0" [attr.aria-valuemax]="ratingRange.length" [attr.aria-valuenow]="model">
+	<span *ngFor="let item of ratingRange; let index = index">
+		<i (mouseenter)="setHovered(item)" (mousemove)="changeHovered($event)" (click)="rate(item)"
+			[attr.data-icon]="fullIcon" class="{{ iconClass }} half{{ calculateWidth(item) }}"
+			[title]="(field?.additionalMetaData?.showRatingTitle) ? titles[index] || item : ''">{{ emptyIcon }}</i>
+	</span>
+</span>
+<mat-hint *ngIf="control.untouched || control.valid"
+	[@slide]="{ value: 'rightIn', params: { colorFrom:'rgba(0, 0, 0, 0.6)', translateFrom: 'translateY(50%)',inTime:'200ms' }}">
+	{{field.fieldHelpText}}</mat-hint>
+<mat-error *ngIf="control.errors && control.touched"
+	[@slide]="{ value: 'rightIn', params: { colorFrom:'#ff5722', translateFrom: 'translateY(30%)',inTime:'200ms' }}"
+	[innerHtml]="controlFunctions.validationMsg(control, field)">
+</mat-error>
+<span class="rate-exlnt" *ngIf="field?.additionalMetaData?.showRatingCaption">{{ locale.translate('excellent') }}</span>

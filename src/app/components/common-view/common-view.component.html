@@ -1,0 +1,33 @@
+<div class="common-view" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+  <ng-container *ngIf="data?.svgIcon || data?.icon">
+    <mat-icon class="common-view-icon" fxLayoutAlign="center center" [svgIcon]="data?.svgIcon"
+      [ngClass]="data?.iconClasses">
+      {{data?.icon}}
+    </mat-icon>
+  </ng-container>
+  <div fxFlex="1 1" fxLayout="column" fxLayoutAlign="start stretch">
+    <label>{{data?.label}}</label>
+    <ng-container *ngIf="data.type === 'text'">
+      <ng-container *ngIf="![null,undefined].includes(data?.value)">
+        <p class="view-txt" [innerHtml]="data?.value | safeDom"></p>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="data.type === 'chip'">
+      <app-chips classes="capitalize" [type]="data?.chipData?.type" [data]="data?.chipData?.data">
+      </app-chips>
+    </ng-container>
+    <ng-container *ngIf="data.type === 'image'">
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
+        <ng-container *ngIf="![null,undefined].includes(data?.value) && data?.value?.length">
+          <ng-container *ngFor="let imgValue of data?.value;">
+            <div fxFlex="0 0 130px" fxflex.xs="auto">
+              <div class="thumbnail cursor-pointer">
+                <img class="img" [src]="imgValue" onError="this.src='assets/img/broken-image.jpg'" alt="">
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="dynamic-form-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+  <ng-container *ngFor="let formFields of formList; let i = index;">
+    <div class="dynamic-form-block" fxLayout="column" fxLayoutAlign="start stretch">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" fxFlexAlign="end">
+        <ng-container *ngIf="formList?.length > 1">
+          <button mat-icon-button (click)="removeForm(i)">
+            <mat-icon class="remove-icon">
+              remove
+            </mat-icon>
+          </button>
+        </ng-container>
+      </div>
+      <app-form-group [fieldList]="formFields" [config]="config" fxLayout="column" fxLayoutAlign="start stretch"
+        fxLayout.xs="column" fxLayoutAlign.xs="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="10px"
+        (formObject)="formObjectReader($event,i)" (helpLineEmit)="helpLineData($event)"
+        (fieldIconEmit)="fieldIconData($event)" (search)="search.emit($event)"
+        (selectedCategory)="selectedCategory.emit($event)" (filterData)="filterData.emit($event)"
+        (clear)="clear.emit($event)" (multiTypeUploadRemoved)="multiTypeUploadRemovedEmit($event)"
+        (multiTypeUploadDropped)="multiTypeUploadDroppedEmit($event)"></app-form-group>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="fieldEmitType === 'trigger'">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" fxFlexAlign="end">
+      <button mat-icon-button (click)="addForm()">
+        <mat-icon class="add-icon">
+          add
+        </mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</div>

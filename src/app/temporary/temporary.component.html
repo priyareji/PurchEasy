@@ -1,0 +1,27 @@
+<div>
+  <app-form-view [button]="{caption: 'Add',icon: 'add_circle'
+    }">
+    <form-title>
+      sdfsd
+    </form-title>
+    <content-area>
+      sdfsdfsd
+      <div class="download" fxLayout="row" fxLayoutAlign="end center">
+        <p>download</p>
+      </div>
+    </content-area>
+  </app-form-view>
+  <div>
+    <ng-container *ngIf="!loader">
+      <app-material-list fxFlex="1 1" fxLayout="column" fxLayoutAlign="start stretch" [headers]="headers"
+        [record]="recordData" [totalRecordCount]="totalRecordCount" [firstPage]="firstPage" [loader]="loader"
+        [filterJson]="filterJson" (triggerAction)="triggerAction($event)" (pagination)="pagination($event)"
+        (fieldTrigger)="fieldTrigger($event)" (filterTrigger)="clearFilter($event)">
+      </app-material-list>
+    </ng-container>
+  </div>
+
+</div>
+
+<!-- [button]="{caption: 'add-btn',icon: 'add_circle'
+}" -->

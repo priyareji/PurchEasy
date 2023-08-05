@@ -1,0 +1,26 @@
+@import "reusable";
+
+:host {
+	width: 100%;
+}
+.widget-list-container {
+	.widget-list-item-group {
+		::ng-deep list-item {
+			margin: 0 0 18px 0;
+		}
+	}
+	.item-loader{
+		min-height: 50px;
+	}
+	.load-more {
+		@extend %custom-icon-btn;
+		font-size: 25px;
+		mat-icon {
+			color: $secondary-three;
+		}
+	}
+
+	.mat-paginator {
+		background-color: transparent;
+	}
+}

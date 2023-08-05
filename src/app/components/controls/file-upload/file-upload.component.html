@@ -1,0 +1,93 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="16px" class="custom-field" [id]="field?.fieldColumn">
+	<mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+		{{field?.fieldCaption}}
+		<span *ngIf="field?.isRequired">*</span>
+	</mat-label>
+	<div class="file-container" fxLayout="row" fxLayoutAlign="start start">
+
+		<ng-container *ngIf="field?.additionalMetaData?.drag">
+			<div fxLayout="column" fxFlex="1 1" fxFlex.xs="100" fxLayoutAlign="start stretch" fxLayoutGap="5px"
+				class="file-uploader">
+				<input type="file" #file [id]="field?.fieldColumn" style="display: none;" (change)="uploadFile($event)"
+					[accept]="field?.additionalMetaData?.supportedType">
+				<ng-container *ngIf="([null, undefined, ''].includes(control.value)) || !control.valid">
+					<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="file-uploader-info"
+						(click)="triggerFile(file)" appDrag (files)="uploadFile($event)">
+						<div class="drop-box-title">{{locale.translate('drop_file_info')}}</div>
+						<div class="drop-box-help-text" fxLayout.xs="column" fxLayoutAlign.xs="start stretch" fxLayout="row"
+							fxLayoutAlign="center center" fxLayoutGap="5px">
+							<div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+								<label>{{locale.translate('supported_formats')}}</label>
+								<p>{{helpText.type}}</p>
+							</div>
+							<div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+								<label>{{locale.translate('max_size')}}</label>
+								<p>{{helpText.size}}</p>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+				<ng-container
+					*ngIf="control.status != 'DISABLED' && control.valid && !([null, undefined, ''].includes(control.value))">
+					<div matSuffix fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
+						<div fxFlex="0 0 50px" class="thumbnail-blk">
+							<div class="file-image">
+								<ng-container *ngIf="field?.additionalMetaData?.thumbnail">
+									<img [src]="field?.additionalMetaData?.thumbnail" alt=""
+										(error)="gfService.setErrorImage($event, 'broken_image')">
+								</ng-container>
+								<ng-container *ngIf="!field?.additionalMetaData?.thumbnail">
+									<img [src]="fileIcon" alt="">
+								</ng-container>
+							</div>
+						</div>
+						<div fxFlex="1 1" class="file-name">{{field?.value?.name}}</div>
+						<ng-container *ngIf="!multiType">
+							<div fxFlex="0 0 auto">
+								<button mat-icon-button type="button" (click)="controlFunctions.resetValue(control); resetFile(file)">
+									<mat-icon>close</mat-icon>
+								</button>
+							</div>
+						</ng-container>
+					</div>
+				</ng-container>
+
+				<mat-error *ngIf="control.errors && control.touched"
+					[innerHtml]="controlFunctions.validationMsg(control, field)">
+				</mat-error>
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="!field?.additionalMetaData?.drag">
+			<mat-form-field [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel"
+				[appearance]="field?.additionalMetaData?.fieldConfig?.appearance">
+				<input matInput [placeholder]="field.fieldPlaceholder" [formControl]="control" [matTooltip]="field.fieldCaption"
+					[required]="field.isRequired" readonly="true" (click)="triggerFile(file)">
+				<input type="file" #file [id]="field?.fieldColumn" style="display: none;"
+					[accept]="field?.additionalMetaData?.supportedType" (change)="uploadFile($event)">
+				<div matSuffix fxLayout fxLayoutGap="5px">
+					<button mat-icon-button type="button"
+						*ngIf="control.status != 'DISABLED' && !([null, undefined, ''].includes(control.value))"
+						(click)="controlFunctions.resetValue(control); resetFile(file)">
+						<mat-icon>close</mat-icon>
+					</button>
+					<button mat-icon-button type="button" (click)="triggerFile(file)"
+						*ngIf="([null, undefined, ''].includes(control.value))">
+						<mat-icon>{{(field.additionalMetaData?.icon) ? field.additionalMetaData?.icon : 'folder'}}</mat-icon>
+					</button>
+				</div>
+				<mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+					{{field.fieldHelpText}}</mat-hint>
+				<mat-error *ngIf="control.errors && control.touched"
+					[innerHtml]="controlFunctions.validationMsg(control, field)">
+				</mat-error>
+			</mat-form-field>
+		</ng-container>
+
+
+		<ng-container *ngIf="field?.helpLine?.length">
+			<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+				(helpLineEmit)="helpLineData($event)"></app-help-line>
+		</ng-container>
+	</div>
+</div>

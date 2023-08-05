@@ -1,0 +1,35 @@
+@import "reusable";
+@import "mixins";
+
+section.container {
+	.cover-image-popup {
+		padding: 50px 28px;
+
+		.btn-block {
+			padding: 8px 0px;
+
+			.submit-btn {
+				@extend %action-btn;
+			}
+			.cancel-btn {
+				@extend %action-cancel-btn;
+			}
+		}
+
+		.image-thumbnail {
+			position: relative;
+		}
+		&.caption-popup {
+
+		}
+
+	}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+	section.container {
+		.cover-image-popup {
+			padding: 15px;
+		}
+	}
+}

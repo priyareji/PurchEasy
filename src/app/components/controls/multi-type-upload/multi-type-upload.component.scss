@@ -1,0 +1,40 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+	width: 100%;
+}
+
+
+.multi-file-container {
+	.multi-file-uploader {
+		.multi-file-uploader-info {
+			border: 1px dashed $secondary-two;
+			padding: 15px 10px;
+			cursor: pointer;
+			background: $secondary-four;
+
+			.drop-box-title {
+				font-size: 13px;
+				color: $secondary-two;
+			}
+			.drop-box-help-text {
+				label {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+
+				p {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+			}
+		}
+		.options {
+			span {
+				@extend %hyperlink;
+			}
+		}
+	}
+}

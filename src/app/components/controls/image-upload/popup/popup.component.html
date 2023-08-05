@@ -1,0 +1,52 @@
+<section class="container" *ngIf="data?.action === 'uploadCropper'">
+	<div>
+		<div class="close-icon cursor-pointer" (click)="dialogRef.close()">
+			<mat-icon matRipple>close</mat-icon>
+		</div>
+	</div>
+	<div class="cover-image-popup">
+		<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+			<div fxLayout="row" fxLayoutAlign="center center" class="image-thumbnail">
+				<app-image-crop fxFlex="340px" fxFlex.xs="100" [field]="cropper" [formControl]="control" [control]="control">
+				</app-image-crop>
+			</div>
+			<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="10px">
+				<div class="btn-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+					<button (click)="submit()" mat-stroked-button class="submit-btn" type="button" appAutoFocus>
+						<ng-container *ngIf="data?.action === 'uploadCropper'">
+							{{locale.translate('ok')}}
+						</ng-container>
+					</button>
+					<button (click)="dialogRef.close('cancel')" mat-button class="cancel-btn"
+						type="button">{{locale.translate('cancel')}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="container" *ngIf="['addCaption', 'editCaption'].includes(data?.action)">
+	<div>
+		<div class="close-icon cursor-pointer" (click)="dialogRef.close()">
+			<mat-icon matRipple>close</mat-icon>
+		</div>
+	</div>
+	<div class="cover-image-popup caption-popup" fxLayout="column" fxFlex="1 1" fxLayoutAlign="start stretch">
+		<div fxLayout="column" fxFlex="1 1" fxLayoutAlign="start stretch" fxLayoutGap="16px">
+			<div fxLayout="row" fxLayoutAlign="center center">
+				<app-text-box [field]="caption" [control]="control" [fxFlex]="config?.fxFlex || 'auto'">
+				</app-text-box>
+			</div>
+			<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="10px">
+				<div class="btn-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+					<button (click)="submit()" mat-stroked-button class="submit-btn" type="button" [disabled]="submitDisable"
+						appAutoFocus>
+						{{locale.translate('ok')}}
+					</button>
+					<button (click)="dialogRef.close('cancel')" mat-button class="cancel-btn"
+						type="button">{{locale.translate('cancel')}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

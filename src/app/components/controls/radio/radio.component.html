@@ -1,0 +1,33 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+	<div class="radio" fxLayout="column" fxLayoutAlign="start start">
+		<div fxLayout="row" fxLayoutAlign="start start">
+			<mat-label [ngClass]="{error: (control.errors && control.touched)}"
+				*ngIf="![null, undefined, ''].includes(field.fieldCaption) && field?.additionalMetaData?.showLabel">
+				{{field.fieldCaption}} <span *ngIf="field?.isRequired">*</span></mat-label>
+
+			<ng-container *ngIf="field?.helpLine?.length">
+				<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+					(helpLineEmit)="helpLineData($event)"></app-help-line>
+			</ng-container>
+		</div>
+		<mat-radio-group [formControl]="control" fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column"
+			fxLayoutAlign="start start" fxLayoutGap="10px" fxLayoutGap.xs="0px" fxLayoutGap.sm="0px">
+			<mat-radio-button color="primary" class="radio-options" *ngFor="let radio of field?.options" [value]="radio.key"
+				[disabled]="radio?.disabled" fxFlex="0 1 auto">
+				{{radio.value}}
+			</mat-radio-button>
+			<mat-radio-button color="primary" *ngIf="!field?.isRequired && field?.additionalMetaData?.isNone" class="radio-options"
+				fxFlex="0 1 auto">
+				{{ locale.translate('none') }}
+			</mat-radio-button>
+		</mat-radio-group>
+		<mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)"
+			[@slide]="{ value: 'rightIn', params: { colorFrom:'rgba(0, 0, 0, 0.6)', translateFrom: 'translateY(20%)',inTime:'200ms' }}">
+			{{field.fieldHelpText}}</mat-hint>
+		<mat-error *ngIf="control.errors && control.touched"
+			[@slide]="{ value: 'rightIn', params: { colorFrom:'#ff5722', translateFrom: 'translateY(20%)',inTime:'200ms' }}"
+			[innerHtml]="controlFunctions.validationMsg(control, field)">
+		</mat-error>
+	</div>
+
+</div>

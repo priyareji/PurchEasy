@@ -1,0 +1,79 @@
+@import "reusable";
+
+span.rating {
+	cursor: pointer;
+	outline: none;
+}
+span.rating.readonly {
+	cursor: default;
+}
+span.rating.disabled {
+	cursor: not-allowed;
+}
+span.rating i {
+	font-style: normal;
+	line-height: 0.9;
+}
+.star-icon {
+	color: color($primary-two);
+	position: relative;
+}
+.star-icon:before {
+	color: color($primary-two);
+	content: attr(data-icon) " ";
+	position: absolute;
+	left: 0;
+	overflow: hidden;
+	width: 0;
+	top: 3px;
+}
+span.rating.disabled .star-icon:before {
+	color: #ececec;
+	text-shadow: none;
+}
+.star-icon.half10:before {
+	width: 10%;
+}
+.star-icon.half20:before {
+	width: 20%;
+}
+.star-icon.half30:before {
+	width: 30%;
+}
+.star-icon.half40:before {
+	width: 40%;
+}
+.star-icon.half50:before {
+	width: 50%;
+}
+.star-icon.half60:before {
+	width: 60%;
+}
+.star-icon.half70:before {
+	width: 70%;
+}
+.star-icon.half80:before {
+	width: 80%;
+}
+.star-icon.half90:before {
+	width: 90%;
+}
+.star-icon.half100:before {
+	width: 100%;
+}
+[class^="rate-"] {
+	font-size: 12px;
+	&[class$="poor"] {
+		color: #ad0000;
+	}
+	&[class$="exlnt"] {
+		color: #00b519;
+	}
+}
+@-moz-document url-prefix() {
+	/* Firefox Hack */
+	.star-icon {
+		// font-size: 50px;
+		// line-height: 34px;
+	}
+}

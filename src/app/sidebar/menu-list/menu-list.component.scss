@@ -1,0 +1,136 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+.mat-nav-list {
+  padding: 0;
+
+  .main-menu {
+    // overflow-y: hidden;
+    // max-height: 0px;
+    // transition: max-height 0.5s ease-out;
+  }
+}
+
+.expanded,
+.child-selected {
+  >.expansion {
+    >.main-menu {
+      max-height: initial;
+
+      .child-selected {
+        .menu-item {
+          color: $success;
+        }
+      }
+
+      >mat-nav-list {
+        // background-color: lighten($color:$side-bor-bg, $amount: 13%);
+        // border-bottom: 1px solid lighten($color:$side-bor-bg, $amount: 32%);
+      }
+    }
+  }
+
+  .custom-divider {
+    border-color: #707070;
+  }
+}
+
+.Profile,
+.Account,
+.AccountManagement {
+  .main-menu {
+    .menu-item {
+      &.active {
+        color: $error;
+      }
+    }
+  }
+}
+
+.Support {
+  .main-menu {
+    .menu-item {
+      &.active {
+        color: $error;
+      }
+    }
+  }
+}
+
+.main-menu {
+  .menu-item {
+    @extend %sub-caption-3;
+    padding: 14px 2px;
+
+    .material-icons {
+      @extend %custom-mat-icon;
+      font-size: 20px;
+      color: $white;
+    }
+
+    .menu-content {
+      >.title {
+        @extend %sub-caption-3;
+        // margin-left: 13.5px;
+        @extend %text-ellipsis;
+        color: inherit;
+        word-break: break-word;
+
+        &.no-icon {
+          margin-left: 0px;
+        }
+      }
+
+      .chlt-status {
+        padding: 2px 7px;
+        font-size: 9px;
+        min-height: 13px;
+        color: red;
+      }
+    }
+
+    .expand {
+      color: #fff;
+
+      .arrow-toggle {
+        transition: all 0.5s ease-out;
+      }
+    }
+
+    &.active {
+      color: color($primary-two);
+      transition: 300ms all ease-in;
+
+      .menu-content {
+        >.title {
+          font-weight: 900;
+
+          &.no-icon {
+            margin-left: 0px;
+          }
+        }
+      }
+    }
+
+    &.opened {}
+
+    &.closed {
+      .menu-content {
+        >.title {
+          margin-left: 0;
+          white-space: initial;
+          text-overflow: unset;
+          overflow: hidden;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .expandable {
+    color: #b5b5b5;
+  }
+
+  .menu-link {}
+}

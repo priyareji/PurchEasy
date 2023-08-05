@@ -1,0 +1,92 @@
+<div class="custom-field" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px" (click)="triggerFile(file)">
+  <div class="image-upload-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div fxLayout="column" fxFlex="1 1" fxFlex.xs="100" fxLayoutAlign="start stretch" fxLayoutGap="5px"
+        class="image-uploader" [ngClass]="{'solid-bordered': reachedMaximum, 'cursor-pointer': !reachedMaximum}">
+        <input type="file" #file name="image" multiple [id]="field?.fieldColumn" style="display: none;"
+          (change)="uploadFile($event)" [accept]="field?.additionalMetaData?.supportedType">
+        <ng-container *ngIf="!filesCount && !inValidFiles?.length">
+          <div fxLayout="column" fxFlex="1 1" fxLayoutAlign="center center" fxLayoutGap="15px"
+            class="image-uploader-info" appDrag (files)="uploadFile($event)">
+            <div class="drop-box-title">{{locale.translate('drop_image_info')}}</div>
+            <div class="drop-box-help-text" fxLayout.xs="column" fxLayoutAlign.xs="start stretch" fxLayout="row"
+              fxLayoutAlign="center center" fxLayoutGap="5px">
+              <div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+                <label>{{locale.translate('supported_formats')}}</label>
+                <p>{{helpText.type}}</p>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start start" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+                <label>{{locale.translate('max_size')}}</label>
+                <p>{{helpText.size}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="filesCount || inValidFiles?.length">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.xs="center center" fxLayoutGap="5px">
+            <div class="drop-box-title">{{locale.translate('drop_image_info')}}</div>
+          </div>
+
+          <div class="file-thumbnail-list" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px"
+            fxLayoutGap.xs="0px" appDrag (files)="uploadFile($event)">
+            <ng-container *ngIf="filesCount > 0">
+              <ng-container *ngFor="let file of files; let i = index; let last = last;">
+                <ng-container *ngIf="!file.removed">
+                  <div class="file-item cursor-pointer" fxFlex="0 0 170px" fxFlex.xs="100%">
+                    <div class="file-image img-thumbnail warn-frame">
+                      <img class="img" [src]="file?.thumbnail" (error)="gfService.setErrorImage($event, 'broken_image')"
+                        (click)="triggerImageCropper(file?.actualImageSrc, 'update', {index: i, sliderValue: file?.sliderValue, zoomedValue: file?.zoomedValue})">
+                      <ng-container *ngIf="file?.removable">
+                        <div class="remove-btn-holder">
+                          <div matRipple class="remove-icon" (click)="removeImage(i)">
+                            <mat-icon>close</mat-icon>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+
+                    <!-- <div class="action-links" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="4px">
+											<ng-container *ngIf="file?.caption">
+												<div class="file-name">{{file?.caption}}</div>
+												<div (click)="updateCaption(file)" class="hyperlink">{{locale.translate('edit')}}</div>
+											</ng-container>
+											<ng-container *ngIf="!file?.caption">
+												<div class="hyperlink" (click)="addCaption(file)">
+													{{locale.translate('add_a_caption')}}
+												</div>
+											</ng-container>
+										</div> -->
+                  </div>
+                </ng-container>
+
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="inValidFiles?.length > 0">
+              <div class="file-item cursor-pointer" fxFlex="0 0 170px" fxFlex.xs="100%">
+                <div class="file-image img-thumbnail warn-frame">
+                  <div class="remove-btn-holder">
+                    <div matRipple class="remove-icon" (click)="removeError()">
+                      <mat-icon>close</mat-icon>
+                    </div>
+                  </div>
+                  <p class="warn-info" fxLayoutAlign="center center" [innerHtml]="locale.translate('multi_image_error') | handleBar : {'fileCount':
+												inValidFiles?.length}">
+                  </p>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <mat-error *ngIf="control?.errors && control?.touched" [innerHtml]="controlFunctions.validationMsg(control, field)">
+    </mat-error>
+    <mat-error *ngIf="showMaxError" [innerHtml]="locale.translate('max_file_error') | handleBar : {'filesCount':
+			field.additionalMetaData.max}">
+    </mat-error>
+  </div>
+</div>

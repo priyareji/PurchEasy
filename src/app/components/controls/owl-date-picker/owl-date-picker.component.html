@@ -1,0 +1,38 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+	<div fxLayout="row" fxLayoutAlign="start start">
+		<mat-form-field class="text-box" [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel"
+			[appearance]="field?.additionalMetaData?.fieldConfig?.appearance">
+			<mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+				{{field?.fieldCaption}}
+				<!-- <span *ngIf="field?.isRequired">*</span> -->
+			</mat-label>
+			<input matInput (click)="datePick(dt, field, control)" (focus)="datePick(dt, field, control)"
+				[placeholder]="field.fieldPlaceholder" [formControl]="control" [min]="field.additionalMetaData?.minDate || ''"
+				[max]="field.additionalMetaData?.maxDate || ''" [matTooltip]="(control.disabled) ? '' : field.fieldHelpText"
+				[required]="field.isRequired" readonly [owlDateTime]="dt" [selectMode]="field?.additionalMetaData?.selectMode"
+				[rangeSeparator]="field?.additionalMetaData?.rangeSeparator">
+			<owl-date-time #dt [pickerType]="field?.additionalMetaData?.pickerType"
+				[pickerMode]="field?.additionalMetaData?.pickerMode" [startView]="field?.additionalMetaData?.startView"
+				[startAt]="field?.additionalMetaData?.startAt" [hour12Timer]="field?.additionalMetaData?.meridiemFormat"
+				[panelClass]="field?.additionalMetaData?.panelClass" [disabled]="field?.isReadonly"
+				(afterPickerOpen)="datePick(dt, field, control)" (afterPickerClosed)="datePick(null, field, control, 'close')">
+			</owl-date-time>
+			<div fxLayout fxLayoutGap="5px" matSuffix>
+				<mat-icon class="cursor-pointer"
+					*ngIf="control.status != 'DISABLED' && !([null, undefined, ''].includes(control.value)) && checkValue(control.value)"
+					(click)="controlFunctions.resetValue(control)">close</mat-icon>
+				<mat-icon class="cursor-pointer" [owlDateTimeTrigger]="dt" (click)="pickerOpen = true">{{
+					(field?.additionalMetaData?.pickerType == 'timer') ? 'timer' : 'date_range'}}</mat-icon>
+			</div>
+			<mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+				{{field.fieldHelpText}}</mat-hint>
+			<mat-error *ngIf="control.errors && control.touched" [innerHtml]="controlFunctions.validationMsg(control, field)">
+			</mat-error>
+		</mat-form-field>
+
+		<ng-container *ngIf="field?.helpLine?.length">
+			<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+				(helpLineEmit)="helpLineData($event)"></app-help-line>
+		</ng-container>
+	</div>
+</div>

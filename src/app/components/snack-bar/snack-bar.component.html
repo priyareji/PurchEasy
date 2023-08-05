@@ -1,0 +1,33 @@
+<div fxFlex="1 0 374px" fxFlex.xs="auto" fxLayout="row" *ngIf="data?.type === 'SUCCESS'" class="snackbar success"
+  fxLayoutAlign="center center" fxLayoutalign.xs="start stretch" fxLayoutGap="10px">
+  <div fxFlex="1 1" fxFlex.xs="auto" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="1 1" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="14px">
+      <mat-icon class="snack-icon" *ngIf="data?.message?.icon && data?.message?.position === 'before'">
+        {{data?.message?.icon}}</mat-icon>
+      <div fxFlex="1 1" fxLayout="row" fxLayoutAlign="center center">
+        <span class="alert-msg">{{data?.message?.message}}</span>
+      </div>
+    </div>
+    <button class="close-btn" mat-icon-button>
+      <mat-icon *ngIf="data?.message?.icon && data?.message?.position === 'after'">{{data?.message?.icon}}</mat-icon>
+    </button>
+  </div>
+</div>
+
+
+<div fxFlex="1 0 374px" fxFlex.xs="auto" fxLayout="row" *ngIf="data?.type === 'ERROR'" class="snackbar error"
+  fxLayoutAlign="center center" fxLayoutAlign.xs="start stretch" fxLayoutGap="10px">
+  <div fxFlex="1 1" fxFlex.xs="auto" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="1 1" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="14px">
+      <mat-icon class="snack-icon" *ngIf="data?.message?.icon && data?.message?.position === 'before'">
+        {{data?.message?.icon}}</mat-icon>
+      <div fxFlex="1 1" fxLayout="row" fxLayoutAlign="center center">
+        <span class="alert-msg">{{data?.message?.message}}</span>
+      </div>
+    </div>
+    <button class="close-btn" mat-icon-button>
+      <mat-icon *ngIf="data?.message?.icon && data?.message?.position === 'after'">
+        {{data?.message?.icon}}</mat-icon>
+    </button>
+  </div>
+</div>

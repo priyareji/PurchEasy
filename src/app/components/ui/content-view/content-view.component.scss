@@ -1,0 +1,71 @@
+@import 'reusable';
+@import 'mixins';
+
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+.screen-container {
+  padding:28px;
+  box-sizing: border-box;
+  height: 100%;
+
+  .breadcrumb {
+    .crumbs {
+    color: $primary-four;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    &.active {
+      color:$secondary-three;
+    }
+    }
+    .next-icon {
+      font-size: 15px;
+      color:$primary-four;
+      margin-top:1px;
+      line-height:1;
+    }
+  }
+
+  .screen-content {
+    .screen-blocks {
+      height: 100%;
+
+      .screen-title {
+        @extend %page-title;
+      }
+			.icon-btn {
+				@extend %custom-icon-btn;
+				mat-icon {
+					@extend %custom-mat-icon;
+					color:$secondary-three;
+				}
+			}
+      .test {
+        background-color: red;
+      }
+    }
+
+    .screen-aside {
+      .help-txt {
+        font-size: 13px;
+        text-align: justify;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .screen-container {
+    padding: 10px;
+
+    .title-container {
+      .screen-header {
+        padding-left: 0px;
+      }
+    }
+  }
+}

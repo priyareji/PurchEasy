@@ -1,0 +1,12 @@
+<div *ngFor="let group of formFields?.fieldGroup; let i = index">
+  <span *ngIf="group?.FieldGroupName">
+    {{group?.FieldGroupName}}
+  </span>
+  <p *ngIf="group?.FieldGroupDescription">
+    {{group?.FieldGroupDescription}}
+  </p>
+  <app-form-group *ngIf="(group.FieldList | objectFilter : null : [{ 'key': 'isHidden', 'string' : [false], 'condition' :
+    'equal'}]).length" [config]="config" [fieldList]="group?.FieldList"
+    (formObject)="formObjectReader($event, group, i)" fxLayout="column" fxLayoutAlign="start stretch">
+  </app-form-group>
+</div>

@@ -1,0 +1,11 @@
+//SASS File
+@import 'reusable';
+@import 'mixins';
+
+:host{
+  width: 100%;
+}
+
+.ipn-label{
+  padding-left: 52px;
+}

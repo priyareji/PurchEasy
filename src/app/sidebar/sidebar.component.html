@@ -1,0 +1,21 @@
+<!-- [@onSideNavChange]="{value: sideNavState ? 'open' : 'close', params: {'maxWidth': (isMobile) ? '0' : '100%', width: (isMobile) ? '0' : '70px'}}" -->
+<div class="sidenav" fxFlex="1 0" fxLayout="column" fxLayoutAlign="space-between stretch" [@onSideNavChange]="{
+		value: (['Homee'].includes(moduleName)) ? 'open' : sideNavState ? 'open' : 'close',
+		 params: {'maxWidth': '100%', width: '10px'}}">
+  <div fxLayout="column" fxLayoutAlign="start stretch" class="sidebar-content">
+    <!-- <div fxLayout="row" [fxLayoutAlign]="sideNavState ? 'start center' : 'center center'" class="toggle-block"
+			[ngClass]="{'opened': sideNavState,'closed': !sideNavState}">
+			<button mat-icon-button fxLayoutAlign.xs="center center" (click)="onSidenavToggle()"
+				*ngIf="(isMobile && sideNavState) || (!isMobile && !sideNavState)">
+				<mat-icon>{{(isMobile) ? 'arrow_back': 'menu'}}</mat-icon>
+			</button>
+			<button mat-icon-button fxLayoutAlign.xs="center center" (click)="onSidenavToggle()"
+				*ngIf="sideNavState && !isMobile">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+		</div> -->
+    <div class="menu-list" fxLayout="column" fxLayoutAlign="start stretch">
+      <app-menu-list [sideNavState]="sideNavState" [menuItems]="menuItems"></app-menu-list>
+    </div>
+  </div>
+</div>

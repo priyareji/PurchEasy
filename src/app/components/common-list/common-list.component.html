@@ -1,0 +1,35 @@
+<div class="widget-list-container" fxLayout="column" fxLayoutAlign="start stretch">
+	<div class="widget-list-item-group" [fxLayout]="(layout === 'row') ? 'row wrap' : 'column'"
+		[fxLayoutAlign]="(layout === 'row') ? 'start stretch' : 'start stretch'" [fxLayoutGap]="layoutGap"
+		fxLayout.xs="column" fxLayoutAlign.xs="start stretch">
+		<ng-container *ngIf="type === 'pagination'">
+			<loader [loader]="loader" [type]="'general'" [classes]=""></loader>
+		</ng-container>
+		<ng-content select="list-item"></ng-content>
+	</div>
+	<!-- <div class="widget-list-item"  *ngFor="let data of listData" fxFlex="0 0 340px" fxFlex.xs="0 0 100%">
+        <ng-template #container></ng-template>
+        <ng-template #subContainer></ng-template>
+    </div> -->
+	<ng-container *ngIf="loader && type === 'loadMore'">
+		<div class="item-loader" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+			<loader [loader]="loader" [type]="'general'" [classes]=""></loader>
+		</div>
+	</ng-container>
+	<ng-container *ngIf="count > childLength && !loader && showPagination">
+		<ng-container *ngIf="type === 'loadMore'">
+			<div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="30px">
+				<button class="load-more" mat-icon-button type="button" (click)="loadMore()">
+					<mat-icon svgIcon="arrow-down"></mat-icon>
+				</button>
+			</div>
+		</ng-container>
+	</ng-container>
+	<ng-container *ngIf="type === 'pagination' && childLength && showPagination">
+		<div fxLayout="row" fxLayoutAlign="center center">
+			<mat-paginator [length]="count" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+				(page)="paginationInfo($event)" #pagination>
+			</mat-paginator>
+		</div>
+	</ng-container>
+</div>

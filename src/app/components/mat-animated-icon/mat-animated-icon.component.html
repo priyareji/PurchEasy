@@ -1,0 +1,13 @@
+<div (click)="toggle()" class="animated-icon" [ngStyle]="{width: size, height: size}">
+	<ng-container *ngIf="animate">
+		<mat-icon [ngStyle]="{'font-size': size}" color="{{animate ? colorEnd : colorStart}}" @fadeInOut>
+			{{end}}
+		</mat-icon>
+	</ng-container>
+	<ng-container *ngIf="!animate">
+		<mat-icon [ngStyle]="{'font-size': size}" color="{{animate ? colorEnd : colorStart}}" @fadeInOut>
+			{{start}}</mat-icon>
+	</ng-container>
+</div>
+<!-- <mat-icon [ngClass]="{'animate' : animate}" color="{{animate ? colorEnd : colorStart}}" (click)="toggle()">
+	{{animate ? end : start}}</mat-icon> -->

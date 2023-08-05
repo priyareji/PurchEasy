@@ -1,0 +1,94 @@
+<ng-container *ngIf="!loader">
+  <ng-container *ngFor="let field of fieldList">
+    <ng-container *ngIf="!field?.isHidden">
+      <ng-container [ngSwitch]="field?.fieldType">
+        <ng-container *ngSwitchCase="'textBox'">
+          <app-text-box [field]="field" [control]="form?.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" (fieldIconEmit)="fieldIconData($event)" [id]="field.fieldColumn"
+            [fxFlex]="config?.fxFlex || 'auto'">
+          </app-text-box>
+        </ng-container>
+        <ng-container *ngSwitchCase="'textArea'">
+          <app-text-area [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-text-area>
+        </ng-container>
+        <ng-container *ngSwitchCase="'dropDown'">
+          <app-drop-down [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-drop-down>
+        </ng-container>
+        <ng-container *ngSwitchCase="'internationalPhoneNumber'">
+          <app-international-phone-number [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-international-phone-number>
+        </ng-container>
+        <ng-container *ngSwitchCase="'date'">
+          <app-date-picker [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-date-picker>
+        </ng-container>
+        <ng-container *ngSwitchCase="'checkBox'">
+          <app-check-box [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-check-box>
+        </ng-container>
+        <ng-container *ngSwitchCase="'radio'">
+          <app-radio [field]="field" [control]="form.controls[field.fieldColumn]" (helpLineEmit)="helpLineData($event)"
+            [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-radio>
+        </ng-container>
+        <ng-container *ngSwitchCase="'autoComplete'">
+          <app-auto-complete [field]="field" [control]="form.controls[field.fieldColumn]"
+            (fieldIconEmit)="fieldIconData($event)" (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn"
+            [fxFlex]="config?.fxFlex || 'auto'">
+          </app-auto-complete>
+        </ng-container>
+        <ng-container *ngSwitchCase="'quillEditor'">
+          <app-quill-editor [field]="field" [control]="form.controls[field.fieldColumn]" fxFlex="getFlexOptions()"
+            [id]="field.fieldColumn" (helpLineEmit)="helpLineData($event)" [ngClass]="field.fieldColumn">
+          </app-quill-editor>
+        </ng-container>
+        <ng-container *ngSwitchCase="'fileUpload'">
+          <app-file-upload [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-file-upload>
+        </ng-container>
+        <ng-container *ngSwitchCase="'imageCrop'">
+          <app-image-crop [field]="field" [formControl]="form.controls[field.fieldColumn]"
+            [control]="form.controls[field.fieldColumn]" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-image-crop>
+        </ng-container>
+        <ng-container *ngSwitchCase="'rating'">
+          <app-mat-rating [field]="field" [formControl]="form.controls[field.fieldColumn]"
+            [control]="form.controls[field.fieldColumn]" fxFlex="getFlexOptions()" [id]="field.fieldColumn"
+            [ngClass]="field.fieldColumn">
+          </app-mat-rating>
+        </ng-container>
+        <ng-container *ngSwitchCase="'advancedSearch'">
+          <app-advanced-search [field]="field" [control]="form.controls[field.fieldColumn]" fxFlex="getFlexOptions()"
+            [id]="field.fieldColumn" [ngClass]="field.fieldColumn" (search)="search.emit($event)"
+            (selectedCategory)="selectedCategory.emit($event)" (filterData)="filterData.emit($event)"
+            (clear)="clear.emit($event)">
+          </app-advanced-search>
+        </ng-container>
+        <ng-container *ngSwitchCase="'multiTypeUpload'">
+          <app-multi-type-upload [field]="field" [control]="form.controls[field.fieldColumn]" fxFlex="getFlexOptions()"
+            [id]="field.fieldColumn" [ngClass]="field.fieldColumn" (removed)="multiTypeUploadRemovedEmit($event)"
+            (dropped)="multiTypeUploadDroppedEmit($event)">
+          </app-multi-type-upload>
+        </ng-container>
+        <ng-container *ngSwitchCase="'imageUpload'">
+          <app-image-upload [field]="field" [control]="form.controls[field.fieldColumn]"
+            [control]="form.controls[field.fieldColumn]" [id]="field.fieldColumn" [fxFlex]="config.fxFlex || 'auto'">
+          </app-image-upload>
+        </ng-container>
+        <ng-container *ngSwitchCase="'owlDate'">
+          <app-owl-date-picker [field]="field" [control]="form.controls[field.fieldColumn]"
+            (helpLineEmit)="helpLineData($event)" [id]="field.fieldColumn" [fxFlex]="config?.fxFlex || 'auto'">
+          </app-owl-date-picker>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

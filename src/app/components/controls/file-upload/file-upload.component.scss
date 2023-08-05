@@ -1,0 +1,60 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+	width: 100%;
+}
+
+.hideFile {
+	opacity: 0;
+	position: absolute;
+}
+
+.upload {
+	cursor: pointer;
+}
+
+.remove {
+	padding: 10px;
+}
+
+.file-container {
+	.file-uploader {
+		.upload-btn {
+			@extend %action-btn;
+		}
+
+		.thumbnail-blk {
+			max-width: 50px;
+			.file-image {
+				@include aspectRatio(2, 2);
+			}
+		}
+		.file-name {
+			@extend %text-ellipsis;
+		}
+		.file-uploader-info {
+			border: 1px dashed $secondary-two;
+			padding: 15px 10px;
+			cursor: pointer;
+			background: $secondary-four;
+
+			.drop-box-title {
+				font-size: 13px;
+				color: $secondary-two;
+			}
+			.drop-box-help-text {
+				label {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+
+				p {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+			}
+		}
+	}
+}

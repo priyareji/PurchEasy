@@ -1,0 +1,128 @@
+@import 'reusable';
+@import 'mixins';
+
+:host {
+	width: 100%;
+}
+
+.image-upload-container {
+	.image-uploader {
+		border: 1px dashed $secondary-two;
+		padding: 15px;
+		background: $secondary-four;
+		min-height: 120px;
+
+		.drop-box-title {
+			font-size: 13px;
+			color: $secondary-two;
+		}
+
+
+		.action-links {
+			padding-top: 7px;
+
+			.file-name {
+				@extend %sub-text-1;
+				@include ellipsis(2);
+			}
+		}
+
+		.image-uploader-info {
+
+			.drop-box-help-text {
+				text-transform: capitalize;
+
+				label {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+
+				p {
+					font-size: 13px;
+					color: $secondary-two;
+				}
+			}
+		}
+
+		.file-thumbnail-list {
+			// padding: 0px 10px;
+
+			.file-item {
+				margin: 10px 0px;
+
+				.file-image {
+					position: relative;
+
+					&.img-thumbnail {
+						@include aspectRatio(16, 9);
+						.img {
+							width: 100%;
+							height: 100%;
+							object-fit: contain;
+						}
+					}
+
+					&.warn-frame {
+						border: 1px solid $secondary-three;
+						background-color: $secondary-seven;
+					}
+
+					.warn-info {
+						@extend %sub-caption-2;
+						color: $error;
+						top: 0px;
+						right: 0px;
+						left: 0px;
+						bottom: 0px;
+						position: absolute;
+						padding: 10px 18px;
+						text-align: center;
+					}
+
+					.remove-btn-holder {
+						position: absolute;
+						right: 0;
+						top: 0;
+						opacity: 0;
+						z-index: 1;
+
+						.remove-icon {
+							color: $primary-one;
+							background: var(--secondary-one);
+							border-radius: 0px;
+
+							mat-icon {
+								@extend %custom-mat-icon;
+								color: #ffffff;
+								font-size: 18px;
+							}
+						}
+					}
+
+					&:hover {
+						.remove-btn-holder {
+							opacity: 1;
+							transition: 0.4s ease;
+						}
+					}
+				}
+			}
+		}
+
+		&.solid-bordered {
+			border: 1px solid $secondary-three;
+		}
+	}
+}
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+	.image-upload-container {
+		.image-uploader {
+			.file-thumbnail-list {
+				padding: 0px;
+			}
+		}
+	}
+}

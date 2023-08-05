@@ -1,0 +1,46 @@
+@import "reusable";
+@import "mixins";
+
+:host {
+    width: 100%;
+}
+
+.header {
+    min-height: 40px;
+    border-bottom:1px solid $secondary-three;
+    .header-container {
+        padding: 4px 0px;
+
+        .logo-contain {
+            .toggle-btn {
+                margin: 0 15px 0 10px;
+                background: transparent;
+                color:$secondary-two;
+            }
+
+            .logo {
+                // // .img {
+                //     width: 115px;
+                //     height: 46px;
+                //     object-fit: contain;
+                // // }
+              
+            }
+        }
+
+        .profile-block {
+            margin: 0px 16px;
+            .user-img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: 1px solid $secondary-four;
+                cursor:pointer;
+
+            }
+            >span {
+                @extend %body-text;
+            }
+        }
+    }
+}

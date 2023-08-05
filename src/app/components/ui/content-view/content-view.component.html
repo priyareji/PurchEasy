@@ -1,0 +1,59 @@
+<div class="screen-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+  <div class="breadcrumb" *ngIf="breadCrumbs?.length">
+    <div fxLayout="row" fxFlex="1 0 100" fxLayoutAlign="start center" fxLayoutGap="3px">
+      <ng-container *ngFor="let breadcrumb of breadCrumbs; let islast = last;">
+        <span class="crumbs" (click)="gfService.routeNavigation(breadcrumb.link,breadcrumb.queryParams)"
+          [ngClass]="{'cursor-pointer' : (!([null, undefined, ''].includes(breadcrumb.link)))}">
+          {{breadcrumb?.caption}}
+        </span>
+        <span class="next-icon" *ngIf="!islast">
+         /
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayout.xs="column"
+    fxLayoutAlign.xs="start stretch" fxFlex="1 1 auto">
+
+    <div class="screen-content" fxFlex="1 0 100" fxLayout="column" fxLayoutAlign="start stretch">
+      <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px" fxLayout.xs="column"
+        fxLayoutAlign.xs="start stretch" fxFlex="1 1">
+
+        <div class="screen-blocks" fxFlex="1 1" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="28px">
+
+          <loader [loader]="contentLoader" [type]="'general'" [classes]=""></loader>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <!--<h1 class="screen-title">-->
+            <ng-content select="content-title"></ng-content>
+            <!--</h1> -->
+            <ng-container *ngIf="optionMenu?.length">
+              <div fxLayout="row" fxLayoutAlign="end end">
+                <button class="icon-btn" mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <ng-container *ngFor="let option of optionMenu">
+                    <button mat-menu-item [ngClass]="option?.classes" (click)="optionAction(option)"
+                      [disabled]="option?.disabled">
+                      <ng-container *ngIf="option?.icon">
+                        <mat-icon>{{option?.icon}}</mat-icon>
+                      </ng-container>
+                      <span>{{option?.caption}}</span>
+                    </button>
+                  </ng-container>
+                </mat-menu>
+              </div>
+            </ng-container>
+          </div>
+          <ng-content select="content-area"></ng-content>
+        </div>
+        <div class="screen-aside" fxFlex="0 0 300px" fxFlex.xs="auto" fxLayoutGap="10px" #insights *ngIf="showInsights">
+          <loader [loader]="insightsLoader" [type]="'general'" [classes]=""></loader>
+          <ng-content select="insights"></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

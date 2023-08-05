@@ -1,0 +1,17 @@
+@import "reusable";
+@import "mixins";
+
+:host {
+    width: 100%;
+}
+
+
+.add-btn {
+    @extend %action-primary-btn;
+}
+
+.download {
+    @extend %body-text;
+    text-transform: uppercase;
+    color:$primary-four;
+}

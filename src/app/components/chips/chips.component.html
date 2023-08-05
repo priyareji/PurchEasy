@@ -1,0 +1,219 @@
+<ng-container [ngSwitch]="type">
+	<mat-chip-list class="chips" [ngClass]="classes">
+		<ng-container *ngSwitchCase="'standard'">
+			<mat-chip [disableRipple]="disableRipple" class="chip-item standard"
+				[ngStyle]="{ 'background-color': background, color: color }" fxLayout="row" fxLayoutGap="8px" (click)="chip()">
+				<span class="title">{{data?.title}}</span>
+				<ng-container *ngIf="removable">
+					<mat-icon matChipRemove #removeEl (click)="remove(removeEl)">cancel</mat-icon>
+				</ng-container>
+			</mat-chip>
+		</ng-container>
+		<ng-container *ngSwitchCase="'classic'">
+			<mat-chip [disableRipple]="disableRipple" class="chip-item classic" fxLayout="row" fxLayoutGap="8px">
+				<img [src]="data?.imageSrc" (click)="titleInfo()" (error)="gfService.setErrorImage($event, 'man')" alt=""
+					class="classic-thumbnail cursor-pointer">
+				<span class="title cursor-pointer" (click)="titleInfo()">{{data?.title}}</span>
+				<ng-container *ngIf="removable">
+					<mat-icon matChipRemove #removeEl (click)="remove(removeEl)">cancel</mat-icon>
+				</ng-container>
+			</mat-chip>
+		</ng-container>
+		<ng-container *ngSwitchCase="'prime'">
+			<mat-chip disableRipple class="chip-item prime" fxLayoutGap="8px">
+				<ng-container *ngIf="data?.hasOwnProperty('imageSrc')">
+					<img [src]="data?.imageSrc" (click)="titleInfo()" (error)="gfService.setErrorImage($event, 'man')" alt=""
+						class="prime-thumbnail cursor-pointer">
+				</ng-container>
+				<ng-container *ngIf="!data?.hasOwnProperty('imageSrc') && data?.svgIcon">
+					<mat-icon class="prime-icon" [svgIcon]="data?.svgIcon"></mat-icon>
+				</ng-container>
+				<div fxLayout="column" fxLayoutGap="3px">
+					<div class="title cursor-pointer" (click)="titleInfo()"><span>{{data?.title}}</span></div>
+				</div>
+				<ng-container *ngIf="removable">
+					<mat-icon matChipRemove>cancel</mat-icon>
+				</ng-container>
+			</mat-chip>
+		</ng-container>
+		<ng-container *ngSwitchCase="'legend'">
+			<mat-chip disableRipple class="chip-item legend" fxLayoutGap="8px">
+				<img [src]="data?.imageSrc" (click)="titleInfo()" (error)="gfService.setErrorImage($event, 'man')" alt=""
+					class="legend-thumbnail cursor-pointer">
+				<div fxLayout="column" fxLayoutAlig="start center" fxLayoutGap="3px">
+					<div class="title cursor-pointer">
+						<span (click)="titleInfo()" [innerHtml]="data?.title | safeDom"></span>
+						<ng-container *ngIf="![null,undefined].includes(data?.usersCount)">
+							<span (click)="usersInfo()"> + {{data?.usersCount}}</span>
+						</ng-container>
+					</div>
+					<ng-container *ngIf="data?.shortInfo?.length">
+						<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="3px" class="short-info"
+							(click)="shortInformation()">
+							<ng-container *ngFor="let info of data?.shortInfo; let isLast = last">
+								<ng-container *ngIf="info?.caption">
+									<span class="short-info-caption">{{info?.caption}}</span>
+									<span class="short-info-caption">:</span>
+								</ng-container>
+								<span class="short-info-caption">
+									<ng-container *ngIf="info?.isBold">
+										<b>{{info?.value}}</b>
+									</ng-container>
+									<ng-container *ngIf="!info?.isBold">
+										{{info?.value}}
+									</ng-container>
+								</span>
+								<ng-container *ngIf="!isLast">
+									<span class="short-info-caption">|</span>
+								</ng-container>
+							</ng-container>
+						</div>
+					</ng-container>
+				</div>
+			</mat-chip>
+		</ng-container>
+		<ng-container *ngSwitchCase="'progressive'">
+			<!-- class="chip-item progress-chip" [ngStyle]="{ 'background-color': data?.bufferColor }" -->
+			<div class="chip-item progress-chip" fxLayout="column" fxLayoutAlign="start stretch"
+				style="--progress: {{data?.progress}}; --expected: {{data?.expected}}" [matTooltip]="toolTip">
+				<div class="progress" data-temp="255 0 0"
+					style="--progress-color: {{data?.progressColor || 'var(--primary-two)'}};">
+					<span class="progress-left">
+						<span class="process-info expect"></span>
+						<span class="process-info active"></span>
+					</span>
+					<span class="progress-top">
+						<span class="process-info expect"></span>
+						<span class="process-info active"></span>
+					</span>
+					<span class="progress-right">
+						<span class="process-info expect"></span>
+						<span class="process-info active"></span>
+					</span>
+					<span class="progress-bottom">
+						<span class="process-info expect"></span>
+						<span class="process-info active"></span>
+					</span>
+				</div>
+				<div class="chip-caption" [ngStyle]="{ 'background-color': background }" fxLayout="row"
+					fxLayoutAlign="center center">
+					{{data?.title}}
+					<ng-container *ngIf="data?.icons?.length">
+						<ng-container *ngFor="let icon of data?.icons">
+							<ng-container *ngIf="icon?.type === 'icon'">
+								<mat-icon class="chip-caption-icon" [matTooltip]="icon?.tooltip"
+									[matTooltipDisabled]="(icon?.tooltip) ? false : true">
+									{{icon?.icon}}</mat-icon>
+							</ng-container>
+							<ng-container *ngIf="icon?.type === 'svgIcon'">
+								<mat-icon class="chip-caption-icon" [svgIcon]="icon?.icon" [matTooltip]="icon?.tooltip"
+									[matTooltipDisabled]="(icon?.tooltip) ? false : true"></mat-icon>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container>
+		<!---Test-->
+		<!-- <ng-container *ngSwitchCase="'progressive'">
+			<div class="chip-item progress-chip" [ngStyle]="{ 'background-color': data?.bufferColor }" fxLayout="column"
+				fxLayoutAlign="start stretch" style="--progress: {{data?.progress}}, --expectedprogress: {{data?.progress}}">
+				<div class="progress">
+					<span class="progress-left">
+						<span class="active"></span>
+					</span>
+					<span class="progress-top">
+						<span class="active"></span>
+					</span>
+					<span class="progress-right">
+						<span class="active"></span>
+					</span>
+					<span class="progress-bottom">
+						<span class="active"></span>
+					</span>
+				</div>
+				<div class="chip-caption" [ngStyle]="{ 'background-color': background }" fxLayout="row"
+					fxLayoutAlign="center center">
+					{{data?.title}}
+					<ng-container *ngIf="data?.icons?.length">
+						<ng-container *ngFor="let icon of data?.icons">
+							<ng-container *ngIf="icon?.type === 'icon'">
+								<mat-icon class="chip-caption-icon" [matTooltip]="icon?.tooltip"
+									[matTooltipDisabled]="(icon?.tooltip) ? false : true">
+									{{icon?.icon}}</mat-icon>
+							</ng-container>
+							<ng-container *ngIf="icon?.type === 'svgIcon'">
+								<mat-icon class="chip-caption-icon" [svgIcon]="icon?.icon" [matTooltip]="icon?.tooltip"
+									[matTooltipDisabled]="(icon?.tooltip) ? false : true"></mat-icon>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container> -->
+		<!----test end-->
+
+		<ng-container *ngSwitchCase="'count'">
+			<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center" class="chip-item ">
+				<div class="count-chip" [ngStyle]="{ 'background-color': background }">
+					<p class="chip-title">{{data?.title}}</p>
+					<div class="badge" [ngStyle]="{ 'background-color': data?.badgeColor }" fxLayoutAlign="center center">
+						<span>{{data?.value}}</span>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngSwitchCase="'grand'">
+			<mat-chip [disableRipple]="disableRipple" class="chip-item grand" fxLayout="row" fxLayoutGap="0px"
+				(click)="chip()">
+				<span class="title">{{data?.title}}</span>
+				<ng-container *ngIf="removable">
+					<mat-icon matChipRemove (click)="remove(data)">cancel</mat-icon>
+				</ng-container>
+			</mat-chip>
+		</ng-container>
+
+		<ng-container *ngSwitchCase="'capsule'">
+			<div class="capsule" fxLayout="row" fxLayoutAlign="center stretch">
+				<div class="title-info" fxLayoutAlign="center center">
+					<p class="title">{{data?.title}}</p>
+				</div>
+				<div class="value-info" fxLayoutAlign="center center">
+					<p class="value" (click)="titleInfo()">{{data?.value}}</p>
+					<ng-container *ngIf="removable">
+						<mat-icon class="remove-icon cursor-pointer" (click)="remove($event)">cancel</mat-icon>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngSwitchCase="'royal-capsule'">
+			<div class="royal-capsule" fxLayout="row" fxLayoutAlign="center stretch">
+				<div class="title-info" fxLayoutAlign="center center">
+					<p class="title">{{data?.title}}</p>
+				</div>
+				<div class="value-info" fxLayoutAlign="center center" fxLayoutGap="5px">
+					<p class="value" [ngClass]="{'click-pointer': changeFilter}" (click)="titleInfo()">{{data?.value}}
+					</p>
+					<ng-container *ngIf="changeFilter">
+						<mat-icon class="renew-icon" (click)="titleInfo()">autorenew</mat-icon>
+					</ng-container>
+					<ng-container *ngIf="removable">
+						<mat-icon class="remove-icon cursor-pointer" (click)="remove($event)">close</mat-icon>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngSwitchCase="'ordinary'">
+			<div class="ordinary" [ngClass]="{'selected': data?.selected}" fxLayout="row" fxLayoutGap="8px" (click)="chip()"
+				fxLayoutAlign="center center">
+				<span class="title">{{data?.title}}</span>
+				<ng-container *ngIf="removable">
+					<mat-icon matChipRemove #removeEl (click)="remove(removeEl)">cancel</mat-icon>
+				</ng-container>
+			</div>
+		</ng-container>
+	</mat-chip-list>
+</ng-container>

@@ -1,0 +1,46 @@
+//SASS File
+@import 'reusable';
+@import 'mixins';
+
+:host {
+  width: 100%;
+}
+
+.radio {
+  padding-bottom: 1.5em;
+  position: relative;
+  margin-bottom: 5px;
+
+  mat-label {
+    &.error {
+      color: #ff5722;
+    }
+  }
+
+  app-help-line {
+    padding: 0 5px;
+    margin: 0;
+  }
+
+  mat-radio-group {
+    width: 100%;
+
+    .radio-options {
+      margin-top: 8px;
+    }
+  }
+
+  mat-hint {
+    margin-top: 8px;
+  }
+
+  mat-error {
+    margin-top: 8px;
+  }
+
+  .mat-error {
+    font-size: .8em;
+    position: absolute;
+    bottom: 5px;
+  }
+}

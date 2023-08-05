@@ -1,0 +1,30 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+  // height: 100%;
+  //
+  position: relative;
+}
+
+.sidenav {
+  // overflow: hidden;
+  height: 100%;
+  color: $secondary-two;
+  background-color: $primary-five;
+
+  .sidebar-content {
+    position: sticky;
+    top: 0;
+
+    .toggle-block {
+      height: 75px;
+      color: $secondary-two;
+    }
+
+    .menu-list {
+      .menu-item {}
+    }
+  }
+}

@@ -1,0 +1,455 @@
+@import "reusable";
+@import "mixins";
+
+:host {
+	width: fit-content;
+}
+
+mat-chip-list {
+	&.chips {
+		outline: none;
+
+		&.capitalize {
+
+			::ng-deep .mat-chip-list-wrapper {
+				.title {
+					text-transform: capitalize;
+				}
+			}
+		}
+
+		::ng-deep .mat-chip-list-wrapper {
+			margin: 0;
+			width: fit-content;
+
+			.standard {
+				margin: 0;
+				outline: #e0e0e0;
+				background-color: $secondary-four;
+				height: 32px;
+				cursor: unset;
+
+				.title {
+					@extend %sub-text-1;
+					white-space: nowrap;
+					color: currentColor;
+				}
+
+				mat-icon {
+					@extend %custom-mat-icon;
+				}
+			}
+
+			.classic {
+				@extend .standard;
+				padding: 0 10px 0 0;
+				margin: 0;
+
+				.title {
+					@extend %sub-text-1;
+					white-space: nowrap;
+				}
+
+				.classic-thumbnail {
+					width: 30px;
+					height: 30px;
+					border-radius: 50%;
+					border: 1px solid $secondary-four;
+				}
+			}
+
+			.prime {
+				background-color: transparent;
+				height: 30px;
+				min-height: 30px;
+				padding: 0 10px 0 0px;
+				margin: 0;
+
+				&:hover::after {
+					opacity: 0;
+				}
+
+				&:focus::after {
+					opacity: 0;
+				}
+
+				&:active {
+					box-shadow: none !important;
+				}
+
+				.title {
+					@extend %sub-caption-1;
+					// white-space: nowrap;
+					@include ellipsis(1);
+				}
+
+				.prime-thumbnail {
+					width: 25px;
+					height: 25px;
+					border-radius: 50%;
+					border: 1px solid $secondary-four;
+				}
+
+				mat-icon {
+					@extend %custom-mat-icon;
+					color: $secondary-three;
+				}
+			}
+
+			.legend {
+				background-color: transparent;
+				height: 32px;
+				padding: 0 10px 0 0px;
+				margin: 0;
+
+				&:hover::after {
+					opacity: 0;
+				}
+
+				&:focus::after {
+					opacity: 0;
+				}
+
+				&:active {
+					box-shadow: none !important;
+				}
+
+				.title {
+					@extend %sub-text-1;
+					white-space: nowrap;
+				}
+
+				.legend-thumbnail {
+					width: 32px;
+					height: 32px;
+					border-radius: 50%;
+					border: 1px solid $secondary-four;
+				}
+
+				.short-info {
+					.short-info-caption {
+						@extend %sub-caption-2;
+						@include ellipsis(1);
+					}
+				}
+
+			}
+		}
+
+		.progress-chip {
+			padding: 5px;
+			border-radius: 50px;
+			margin: 3px;
+			position: relative;
+			overflow: hidden;
+			z-index: 0;
+			background-color: $secondary-four;
+
+			// &::before {
+			// 	content: "";
+			// 	position: absolute;
+			// 	background-color: red;
+			// 	left: 0;
+			// 	width: calc(var(--progress) * 2);
+			// 	top: 0;
+			// 	bottom: 50%;
+			// 	transition: 300ms width ease-in;
+			// }
+			// &::after {
+			// 	content: "";
+			// 	position: absolute;
+			// 	background-color: red;
+			// 	right: 0;
+			// 	width: calc(calc(var(--progress) - 50%) * 2);
+			// 	top: 50%;
+			// 	bottom: 0;
+			// 	transition: 300ms width ease-in;
+			// }
+			.progress {
+				.expect {
+					background-color: color(var(--progress-color), 0.4);
+				}
+
+				.active {
+					background-color: color(var(--progress-color));
+				}
+
+				.progress-left {
+					.process-info {
+						position: absolute;
+						transition: 300ms height ease-in;
+						top: 0;
+						width: 10px;
+						max-height: 100%;
+					}
+
+					>.expect {
+						height: calc(calc(var(--expected) - 90%) * 10);
+					}
+
+					>.active {
+						height: calc(calc(var(--progress) - 90%) * 10);
+					}
+
+					position: absolute;
+					left: 0;
+					top: 2px;
+					bottom: 2px;
+					width: 10px;
+					overflow: hidden;
+				}
+
+				.progress-top {
+					.process-info {
+						position: absolute;
+						transition: 300ms width ease-in;
+						right: 0;
+						height: 10px;
+						max-width: 100%;
+					}
+
+					>.expect {
+						width: calc(calc(var(--expected) - 50%) * 2.5);
+					}
+
+					>.active {
+						width: calc(calc(var(--progress) - 50%) * 2.5);
+					}
+
+					position: absolute;
+					left: 10px;
+					right: 10px;
+					top: 0;
+					height: 10px;
+					overflow: hidden;
+				}
+
+				.progress-right {
+					.process-info {
+						position: absolute;
+						transition: 300ms height ease-in;
+						bottom: 0;
+						width: 10px;
+						max-height: 100%;
+					}
+
+					>.expect {
+						height: calc(calc(var(--expected) - 40%) * 10);
+					}
+
+					>.active {
+						height: calc(calc(var(--progress) - 40%) * 10);
+					}
+
+					position: absolute;
+					right: 0;
+					top: 2px;
+					bottom: 2px;
+					width: 10px;
+					overflow: hidden;
+				}
+
+				.progress-bottom {
+					.process-info {
+						position: absolute;
+						transition: 300ms width ease-in;
+						height: 10px;
+						max-width: 100%;
+					}
+
+					>.expect {
+						width: calc(var(--expected) * 2.5);
+					}
+
+					>.active {
+						width: calc(var(--progress) * 2.5);
+					}
+
+					position: absolute;
+					right: 10px;
+					left: 10px;
+					bottom: 0;
+					height: 10px;
+					overflow: hidden;
+				}
+			}
+
+			.chip-caption {
+				@extend %caption;
+				white-space: nowrap;
+				border-radius: 50px;
+				padding: 2px 5px;
+				z-index: 1;
+				text-transform: capitalize;
+
+				.chip-caption-icon {
+					@extend %custom-mat-icon;
+					padding: 0 0 0 5px;
+					color: $secondary-three;
+					font-size: 1em;
+				}
+			}
+		}
+
+		.count-chip {
+			min-width: 100px;
+			height: 30px;
+			background-color: $secondary-four;
+			border-radius: 15px;
+			position: relative;
+
+			.chip-title {
+				@extend %sub-text-1;
+				text-align: center;
+				padding: 8px 35px 0px 15px;
+				white-space: nowrap;
+			}
+
+			.badge {
+				position: absolute;
+				width: 29px;
+				height: 29px;
+				border-radius: 50%;
+				background-color: $secondary-two;
+				top: 0;
+				right: -2px;
+				color: $white;
+				font-size: small;
+			}
+		}
+
+		.grand {
+			margin: 5px;
+			padding: 0px 12px;
+			border: 2px solid $secondary-four;
+			height: 24px;
+			min-height: 25px;
+			background-color: transparent;
+			cursor: pointer;
+			color: $secondary-four;
+
+			.title {
+				@include ellipsis(1);
+				@extend %sub-text-1;
+				color: currentColor;
+			}
+
+			mat-icon {
+				position: relative;
+				right: -10px;
+				margin-left: 0;
+				color: $white;
+			}
+
+			&:hover,
+			&.selected {
+				background-color: $secondary-four;
+				color: $primary-one;
+
+				mat-icon {
+					color: $primary-one;
+				}
+			}
+		}
+
+		.capsule {
+			height: 100%;
+			margin: 5px;
+			min-height: 32px;
+
+			.title-info {
+				padding: 6px 16px;
+				background-color: $secondary-four;
+				border-radius: 50px 0px 0px 50px;
+				min-width: 80px;
+
+				.title {
+					@extend %sub-caption-2;
+					@extend %text-ellipsis;
+				}
+			}
+
+			.value-info {
+				background-color: $secondary-five;
+				// padding: 6px 16px;
+				border-radius: 0px 50px 50px 0px;
+
+				.value {
+					@extend %sub-text-1;
+					@extend %text-ellipsis;
+					padding: 6px 16px;
+				}
+
+				.remove-icon {
+					@extend %custom-mat-icon;
+					color: $secondary-two;
+					font-size: 16px;
+					cursor: pointer;
+					margin-right: 5px;
+					padding: 0;
+				}
+			}
+		}
+
+		.royal-capsule {
+			@extend .capsule;
+			border-radius: 25px;
+
+			.title-info {
+				background-color: $white;
+				border: 1px solid rgba(0, 0, 0, 0.1);
+			}
+
+			.value-info {
+				background-color: color($primary-two);
+				border: 1px solid rgba(0, 0, 0, 0.1);
+				color: $white;
+
+				.value {
+					color: $white;
+				}
+
+				.renew-icon {
+					@extend %custom-mat-icon;
+					color: $white;
+					font-size: 18px;
+					cursor: pointer;
+				}
+
+				.remove-icon {
+					@extend %custom-mat-icon;
+					color: #ffffff;
+					font-size: 16px;
+					background-color: rgba(0, 0, 0, 0.2);
+					border-radius: 100%;
+					padding: 0px;
+				}
+			}
+		}
+
+		.ordinary {
+			margin: 5px;
+			min-height: 32px;
+			cursor: pointer;
+			padding: 7px 9px;
+			min-width: 41px;
+			border-radius: 18px;
+			box-shadow: 0 0 2px $secondary-three;
+			background-color: $white;
+			@extend %sub-caption-2;
+			text-align: center;
+
+			.title {
+				@extend %sub-caption-2;
+			}
+
+			&.selected {
+				background-color: color($primary-two);
+
+				.title {
+					color: $white;
+				}
+			}
+		}
+	}
+}

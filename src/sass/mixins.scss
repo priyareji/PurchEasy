@@ -1,0 +1,80 @@
+@mixin theme() {}
+
+
+
+
+@mixin aspectRatio($width, $height) {
+  padding-top: ($height/$width) * 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  >img,
+  .ratio-content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+@mixin ellipsis($line) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  -moz-line-clamp: $line;
+  -moz-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+@function color($color, $opacity: 1) {
+  @return rgba($color / $opacity);
+}
+
+@function hexToRGB($hex) {
+  @return red($hex),
+  green($hex),
+  blue($hex);
+}
+
+@function calcOperation($code, $value: 1) {
+  @return calc(#{$code} * #{$value});
+}
+
+/// CSS variable to HSLA string.
+/// @param {number} $color CSS variable
+/// @param {number} $opacity Opacity of the color.
+/// @param {list} $alteration For altering Saturation and Lightness. $alteration: ("saturation": 1, "lightness": 1,)
+/// @return {string} `hsla()`.
+@function hslaColor($color, $opacity: 1, $alteration: ()) {
+  $color: str-replace($color, "var(");
+  $color: str-replace($color, ")");
+  $color-h: var(#{$color + "-h"});
+  $color-s: var(#{$color + "-s"});
+  $color-l: var(#{$color + "-l"});
+
+  @if map-has-key($alteration, "saturation") {
+    $color-s: calcOperation($color-s, map-get($alteration, "saturation"));
+  }
+
+  @if map-has-key($alteration, "lightness") {
+    $color-l: calcOperation($color-l, map-get($alteration, "lightness"));
+  }
+
+  @return hsla($color-h, $color-s, $color-l, $opacity);
+}
+
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1)+$replace+str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}

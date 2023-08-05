@@ -1,0 +1,21 @@
+{
+	"configuration": {
+		"API_PREFIX": "/",
+		"API_URL": "http://purcheasynode.dev.betabasket.net",
+		"SITE_TITLE": "PURCHeasy",
+		"alertDuration": 2000,
+		"fieldConfig": {"floatLabel": "auto", "appearance": "standard"},
+		"meridiemFormat": true,
+		"pageSizeOptions": [5, 10, 25, 100],
+		"pageSize": 5,
+		"MESSAGE": {
+			"WENT_WRONG": "Sorry! Something went wrong. Please try again after some time."
+		},
+		"refreshToken": "1//0g08-L75lHBogCgYIARAAGBASNwF-L9IrLkmZwale3PwZ5yQ_AWkOWnGXP7f4xPwjpz2pdDVqhJLIuqpn6Lfli4kCeV-Cvx1b33Y",
+		"searchDelay": 800,
+		"sessionExpireTime": 172800000,
+		"setToken": true,
+		"snackBarDuration": 3000,
+		"zoomDelay": 400
+	}
+}

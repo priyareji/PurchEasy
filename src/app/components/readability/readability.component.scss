@@ -1,0 +1,19 @@
+@import "reusable";
+
+:host {
+	width: 100%;
+	display: block;
+}
+
+.readability {
+	.read-more-text {
+		@extend %hyperlink;
+	}
+	.read-more-btn {
+		// font-size: 20px;
+		// width: 30px;
+		// height: 30px;
+		// line-height: 1;
+		@extend %custom-icon-btn;
+	}
+}

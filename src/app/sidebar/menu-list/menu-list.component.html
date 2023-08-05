@@ -1,0 +1,54 @@
+<div class="main-menu">
+  <mat-nav-list>
+    <ng-container *ngFor="let menu of menuItems; trackBy: trackByFn">
+      <div mat-list-item matRipple *ngIf="menu.isVisible" class="cursor-pointer" [@fade]="sideNavState ? 'in' : 'out'"
+        [ngClass]="(menu.expanded) ? ((menu?.childSelected) ? 'expanded child-selected ' + menu.key : 'expanded' + menu.key) : ((menu?.childSelected) ? 'child-selected ' + menu.key : menu.key)">
+
+        <a class="expandable menu-item"
+          [ngClass]="{ 'active' : (menu.key === crtMenu?.key), 'opened' : sideNavState, 'closed' : !sideNavState }"
+          *ngIf="menu.childMenu && menu.childMenu.length" (click)="routeNav(menu, $event)"
+          [ngStyle]="{'margin-left':menuStyle(menu)}" [fxLayout]="(sideNavState) ? 'row' : 'column'"
+          [fxLayoutAlign]="(sideNavState) ? 'center center' : 'start center'" fxLayoutGap="8px">
+          <mat-icon class="material-icons" *ngIf="![null, undefined, ''].includes(menu.icon)">{{menu.icon}}
+          </mat-icon>
+          <mat-icon class="material-icons" *ngIf="![null, undefined, ''].includes(menu.svgIcon)"
+            [svgIcon]="menu.svgIcon">
+          </mat-icon>
+          <div class="menu-content menu-link" fxLayout fxLayoutAlign="space-between center" fxFlexFill>
+            <!-- <p class="title" fxHide.xs
+							[ngClass]="{'no-icon': ([null, undefined, ''].includes(menu.icon) && [null, undefined, ''].includes(menu.svgIcon))}">
+							{{menu.title}}</p> -->
+            <mat-icon class="arrowToggle"
+              [@transform]="{ value: menu.expanded ? 'off' : 'on', params: { transformFrom: 'rotateY(180deg) rotate(0deg)', transformTo: 'rotateY(180deg) rotate(180deg)',inTime:'100ms',outTime:'250ms'}}">
+              keyboard_arrow_down</mat-icon>
+          </div>
+        </a>
+        <a class="menu-item"
+          [ngClass]="{ 'active' : (menu.key === crtMenu?.key), 'opened' : sideNavState, 'closed' : !sideNavState }"
+          *ngIf="[null, undefined].includes(menu.childMenu) || !(menu.childMenu.length)"
+          (click)="routeNav(menu, $event)" [ngStyle]="{'margin-left':menuStyle(menu)}"
+          [fxLayout]="(sideNavState) ? 'row' : 'column'"
+          [fxLayoutAlign]="(sideNavState) ? 'center center' : 'start center'" fxLayoutGap="8px">
+          <mat-icon class="material-icons" *ngIf="![null, undefined, ''].includes(menu.icon)" [matTooltip]="menu.title"
+            matTooltipPosition="after">{{menu.icon}}
+          </mat-icon>
+          <mat-icon class="material-icons" *ngIf="![null, undefined, ''].includes(menu.svgIcon)"
+            [svgIcon]="menu.svgIcon" [matTooltip]="menu.title" matTooltipPosition="after">
+          </mat-icon>
+          <!-- <div fxFlex="1 0" fxHide.xs class="menu-content menu-link" fxLayout fxLayoutAlign="space-between center">
+						<p class="title"
+							[ngClass]="{'no-icon': ([null, undefined, ''].includes(menu.icon) && [null, undefined, ''].includes(menu.svgIcon))}">
+							{{menu.title}}</p>
+					</div> -->
+        </a>
+        <ng-container *ngIf="menu.expanded">
+          <mat-divider class="custom-divider"></mat-divider>
+          <app-menu-list class="expansion" [@accordionX]="(menu.expanded) ? 'on' : 'off'"
+            *ngIf="menu.childMenu && menu.childMenu.length" [sideNavState]="sideNavState" [menuItems]="menu.childMenu">
+          </app-menu-list>
+          <!-- <mat-divider class="custom-divider"></mat-divider> -->
+        </ng-container>
+      </div>
+    </ng-container>
+  </mat-nav-list>
+</div>

@@ -1,0 +1,55 @@
+<div class="container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="10px">
+  <div class="pageContent" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+
+    <div class="pagenot" *ngIf="data?.error && data?.error === 404" fxLayoutAlign="center center">
+      <h1>ERROR {{ data?.error}}</h1>
+      <h2>Page not found :(</h2>
+      <a [routerLink]="'/'">
+        <h5>Go Back to Home</h5>
+      </a>
+    </div>
+
+    <div class="pagenot" *ngIf="data?.error && data?.error === 'NETWORKERR'" fxLayoutAlign="center center">
+      <!-- <h1>ERROR {{ data?.error }}</h1> -->
+      <h2>No internet connection :(</h2>
+      <h4>Check your network connection.</h4>
+    </div>
+
+    <div class="pagenot" *ngIf="data?.error && data?.error === 'COOKIE'" fxLayoutAlign="center center">
+      <!-- <h1>ERROR {{ data?.error }}</h1> -->
+      <h2>Cookies blocked.</h2>
+      <h4>Please enable cookies.</h4>
+    </div>
+
+    <div class="pagenot" *ngIf="routeParams.message">
+      <h1 *ngIf="routeParams?.status"> ERROR {{ routeParams?.status }}</h1>
+      <br />
+      <h3 *ngIf="routeParams?.message">{{ routeParams?.message }}</h3>
+      <br />
+      <h1 *ngIf="routeParams?.url && routeParams?.url !== '/'">Error in {{ routeParams?.url | uppercase }} page, sorry
+        {{ routeParams?.user }} :(</h1>
+      <h4 *ngIf="routeParams?.id">This error has been reported to the Administrator with the ID:
+        <br> {{ routeParams?.id}}</h4>
+      <a [routerLink]="routeParams?.url" *ngIf="routeParams?.url && routeParams.status !== '404'">
+        <h5>Go Back to {{routeParams?.url}}</h5>
+      </a>
+      <a routerLink="/" *ngIf="!routeParams.url || routeParams.status === '404'">
+        <h5>Go Back to Home</h5>
+      </a>
+    </div>
+
+    <div *ngIf="!routeParams && !data">
+      <h1>Unknown error, sorry :(</h1>
+      <a [routerLink]="'/'">
+        <h5>Go Back to Home</h5>
+      </a>
+    </div>
+
+    <div class="pre-container" *ngIf="routeParams?.message">
+      <p>Error sent to the server</p>
+      <pre>
+        {{ this.routeParams | json }}
+      </pre>
+    </div>
+  </div>
+</div>

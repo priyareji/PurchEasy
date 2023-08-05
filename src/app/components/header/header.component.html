@@ -1,0 +1,29 @@
+<div class="header" fxLayout="column" fxLayoutAlign="start stretch">
+  <div fxLayout="row" class="header-container" fxLayoutAlign="space-between center" fxFlexFill fxLayoutGap="40px"
+    fxLayoutGap.xs="7px" fxLayoutGap.gt-xs="17px">
+    <div fxLayout="row" fxLayoutAlign="start center" class="logo-contain">
+      <button class="toggle-btn" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="logo" (click)="routeHome()">
+        <img class="img" src="../../assets/img/purcheasy-logo.png">
+      </div>
+    </div>
+
+    <!---profile-->
+
+    <!-- <button> -->
+
+    <div fxLayout="row" class="profile-block" fxLayoutAlign="start center" fxLayoutGap="20px"
+      [matMenuTriggerFor]="menu">
+      <img class="user-img" [src]="currentUser?.profile?.profilePicURL"
+        (error)="gfService.setErrorImage($event, 'man')">
+      <span class="body-text cursor-pointer">{{ userName }}</span>
+    </div>
+
+    <mat-menu #menu="matMenu" yPosition="above" xPosition="before">
+      <button mat-menu-item (click)="logout()">{{locale.translate('logout')}}</button>
+    </mat-menu>
+  </div>
+
+</div>

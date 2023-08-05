@@ -1,0 +1,48 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+  width: 100%;
+}
+.text-box {
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+
+	.suffix-icon {
+		@extend %custom-icon-btn;
+		mat-icon {
+		@extend %custom-mat-icon;
+		font-size:18px;
+    }
+
+  }
+  .prefix {
+    margin-right:5px;
+  }
+}
+.text-strength {
+  .progress {
+    margin-top: 5px;
+    height: 5px;
+    background-color: #f3f3f3;
+    width: 100%;
+
+    .state {
+      height: 5px;
+      transition: all 2s;
+    }
+  }
+
+  .strength-state {
+    text-align: right;
+    font-size: 11px;
+  }
+}

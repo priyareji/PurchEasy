@@ -1,0 +1,23 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+  <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">{{field?.fieldCaption}}
+    <span *ngIf="field?.isRequired">*</span>
+  </mat-label>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel" [appearance]="field?.additionalMetaData?.fieldConfig?.appearance">
+      <!-- <mat-label class="ipn-label">{{field?.fieldCaption}}</mat-label> -->
+      <input ng2TelInput matInput type="tel" [formControl]="control"
+        [matTooltip]="(control.disabled) ? '' : field.fieldHelpText" [required]="field.isRequired"
+        (intlTelInputObject)="telInputObject($event,field)" (hasError)="intlChange($event,field)"
+        (countryChange)="intlCountryChange($event,field)" (input)="removeSpace($event,field)"
+        (change)="intlChange($event,field)" />
+      <mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+        {{field.fieldHelpText}}</mat-hint>
+      <mat-error *ngIf="control.errors && control.touched" [innerHtml]="controlFunctions.validationMsg(control, field)">
+      </mat-error>
+    </mat-form-field>
+
+    <ng-container *ngIf="field?.helpLine?.length">
+      <app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start" (helpLineEmit)="helpLineData($event)"></app-help-line>
+    </ng-container>
+  </div>
+</div>

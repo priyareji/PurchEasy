@@ -1,0 +1,35 @@
+@import "reusable";
+:host {
+	width: 100%;
+}
+.collapsible-block {
+	border: 1px solid;
+	.collapsible-header {
+		padding: 2px 0px 2px 10px;
+		min-height: 40px;
+		.info {
+			.collapse-title {
+				@extend %caption;
+				text-transform: capitalize;
+				@include ellipsis(1);
+				&.xs {
+					margin:3px 0px;
+				}
+			}
+		}
+		.title-icon {
+			@extend %custom-mat-icon;
+			color: $secondary-three;
+			font-size: 1.2em;
+		}
+		.collapse-icon {
+			@extend %custom-mat-icon;
+			// font-size: 1em;
+			color: $secondary-two;
+		}
+		.caption {
+			@extend %caption;
+			text-transform: capitalize;
+		}
+	}
+}

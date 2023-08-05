@@ -1,0 +1,26 @@
+<ng-container *ngFor="let help of helpLineData">
+  <div [ngSwitch]="help.type" class="helpline">
+
+    <div *ngSwitchCase="'button'">
+      <button mat-raised-button [color]="help?.color" (click)="helpLineChange(help)" type="button"
+        [matTooltip]="help.caption">
+        {{help.caption}}
+      </button>
+    </div>
+
+    <div *ngSwitchCase="'icon'">
+      <button mat-icon-button (click)="helpLineChange(help)" type="button" [matTooltip]="help.caption">
+        <mat-icon>{{help.icon}}</mat-icon>
+      </button>
+    </div>
+
+    <div *ngSwitchCase="'link'">
+      <ng-container *ngIf="!([null,undefined,''].includes(help?.icon))">
+        <mat-icon (click)="helpLineChange(help)" [matTooltip]="help.caption">{{help.icon}}</mat-icon>
+      </ng-container>
+      <ng-container *ngIf="[null,undefined,''].includes(help?.icon)">
+        <a [target]="(help?.targer) ? help.target : '_blank'" (click)="helpLineChange(help)">{{help?.caption}}</a>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

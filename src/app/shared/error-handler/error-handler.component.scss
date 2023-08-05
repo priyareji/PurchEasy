@@ -1,0 +1,49 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+.pageContent {
+	width: 90%;
+}
+
+h1,
+h3,
+h4,
+h5 {
+	margin-bottom: 0;
+	margin-top: 10px;
+}
+
+.pre-container {
+	width: 400px;
+	padding: 15px;
+	max-width: 90%;
+	margin: 0 auto;
+	background-color: $secondary-four;
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+pre {
+	overflow: scroll;
+}
+
+.pagenot {
+	text-align: center;
+	color: #333333;
+
+	mat-icon {
+		width: 150px;
+		height: 150px;
+		font-size: 150px;
+	}
+
+	a {
+		color: #0035b1;
+	}
+}
+
+@media screen and (max-width: 812px) {
+	.pageContent {
+		width: 100%;
+	}
+}

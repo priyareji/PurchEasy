@@ -1,0 +1,14 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+	width: 100%;
+}
+
+.mat-option {
+	font-size: inherit;
+	&.mat-selected:not(.mat-option-disabled) {
+		color: $secondary-two !important;
+	}
+}

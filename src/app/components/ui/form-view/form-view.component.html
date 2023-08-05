@@ -1,0 +1,161 @@
+  <div class="screen-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <ng-container *ngIf="breadCrumbs?.length">
+      <div class="breadcrumb">
+        <div fxFlex="1 0 100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="3px">
+          <ng-container *ngFor="let breadcrumb of breadCrumbs; let islast = last;">
+            <span class="crumbs" (click)="gfService.routeNavigation(breadcrumb.link,breadcrumb.queryParams)"
+              [ngClass]="{'cursor-pointer' : (!([null, undefined, ''].includes(breadcrumb.link)))}">
+              {{breadcrumb?.caption}}
+            </span>
+            <span class="next-icon" *ngIf="!islast">
+              /
+            </span>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="!popup && (menuGroups | objectFilter : null : [{ 'key': 'isVisible', 'string' : [true], 'condition' : 'equal'}]).length">
+      <div fxFlex="0 0 200px" class="navigation-block" fxHide.xs fxHide.sm>
+        <ng-container *ngFor="let menuGroup of menuGroups">
+          <ng-container *ngIf="menuGroup?.isVisible && (!menuGroup?.hasOwnProperty('isPage') || menuGroup?.isPage)">
+            <div class="content-nav" fxLayout="column" fxLayoutAlign="start start">
+              <h3 class="nav-group-title" fxLayout="row" fxLayoutGap="11px" fxLayoutAlign="star center">
+                <!-- <ng-container *ngIf="menuGroup?.svgIcon">
+									<mat-icon [svgIcon]="menuGroup.svgIcon"></mat-icon>
+								</ng-container>
+								<ng-container *ngIf="menuGroup?.icon">
+									<mat-icon>{{menuGroup?.icon}}</mat-icon>
+								</ng-container> -->
+                <span class="block-title">{{ menuGroup.title}}</span>
+              </h3>
+              <div fxLayout="column" fxLayoutGap="0px" fxLayoutAlign="start stretch">
+                <ul class="content-nav-list">
+                  <ng-container *ngIf="menuGroup?.menuList">
+                    <ng-container *ngFor="let menu of menuGroup?.menuList">
+                      <ng-container *ngIf="!menu?.hasOwnProperty('isPage') || menu?.isPage">
+                        <ng-container *ngIf="menu?.groupDivider">
+                          <div class="add-border"></div>
+                        </ng-container>
+
+                        <li class="content-nav-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px"
+                          (click)="routeNav(menu)" [ngClass]="{ 'active' : menu?.active, 'cursor-pointer': menu?.link}">
+                          <span fxFlex="0 0 20px">
+                            <mat-icon class="cursor-pointer" [svgIcon]="menu?.svgIcon"></mat-icon>
+                          </span>
+                          <span class="menu-item">{{ menu?.title }}</span>
+                        </li>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="[null,undefined].includes(menuGroup?.menuList)">
+                    <li class="content-nav-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px"
+                      (click)="routeNav(menuGroup)"
+                      [ngClass]="{ 'active' : menuGroup?.active, 'cursor-pointer': menuGroup?.link}">
+                      <span fxFlex="0 0 20px">
+                        <mat-icon class="cursor-pointer" [svgIcon]="menuGroup?.svgIcon"></mat-icon>
+                      </span>
+                      <span class="menu-item">{{ menuGroup?.title }}</span>
+                    </li>
+                  </ng-container>
+                </ul>
+
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <div  fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px" fxLayout.xs="column"
+      fxLayoutAlign.xs="start stretch" style="overflow-x: hidden;">
+      <div fxLayout="row" class="title-container" fxLayoutAlign="space-between center" fxLayoutGap="15px"
+        fxLayoutGap.xs="5px" fxLayout.xs="row" fxLayoutAlign.xs="start stretch">
+        <div fxFlex="1 0 auto" fxFlex.xs="1 1" fxLayout="row" fxLayoutAlign="space-between center">
+          <!-- <h1 class="page-title"> -->
+            <ng-content select="form-title"></ng-content>
+          <!-- </h1> -->
+          <ng-container *ngIf="button && (button | objectKeys : []).length">
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <ng-container *ngIf="(detectDevice?.resolutionState$?.value?.deviceType === 'desktop' || (!button?.icon &&
+                !button?.svgIcon)) && button?.caption">
+                <button mat-stroked-button class="add-btn" type="button" (click)="actions(actionBtn)" #actionBtn
+                  [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                  <ng-container *ngIf="button?.icon">
+                    <mat-icon>
+                      {{button?.icon}}
+                    </mat-icon>
+                  </ng-container>
+                  <ng-container *ngIf="!button?.icon && button?.svgIcon">
+                    <mat-icon [svgIcon]="button?.svgIcon">
+                    </mat-icon>
+                  </ng-container>
+                  <span>
+                    {{button?.caption}}
+                  </span>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="(detectDevice?.resolutionState$?.value?.deviceType !== 'desktop' || !button?.caption) &&
+              (button?.icon || button?.svgIcon)">
+                <button class="add-icon-btn" mat-icon-button type="button" (click)="actions(actionBtn)" #actionBtn
+                  [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                  <ng-container *ngIf="button?.icon">
+                    <mat-icon>
+                      {{button?.icon}}
+                    </mat-icon>
+                  </ng-container>
+                  <ng-container *ngIf="!button?.icon && button?.svgIcon">
+                    <mat-icon [svgIcon]="button?.svgIcon">
+                    </mat-icon>
+                  </ng-container>
+                </button>
+              </ng-container>
+
+              <!-- <ng-container *ngIf="buttonOptions && buttonOptions?.length"> -->
+              <mat-menu #menu="matMenu">
+                <ng-container *ngIf="buttonOptions && buttonOptions?.length">
+                  <ng-container *ngFor="let button of buttonOptions">
+                    <button mat-menu-item (click)="actions(null, button)">{{button?.value}}</button>
+                  </ng-container>
+                </ng-container>
+              </mat-menu>
+              <!-- </ng-container> -->
+            </div>
+          </ng-container>
+        </div>
+        <div fxLayoutAlign="end center" *ngIf="showInsights" fxLayoutGap="20px">
+          <div fxLayout="row" class="toggle-btn" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+            <!-- <div class="btn-name">{{locale.translate('show_help')}}</div> -->
+            <!-- <section class="example-section"> -->
+            <!-- <mat-slide-toggle color="primary" class="example-margin" (change)="toggleHelp($event)" [checked]="showHelp">
+						</mat-slide-toggle> -->
+            <div matRipple class="help-btn selected" fxLayoutAlign="center center" [ngClass]="{'selected':showHelp}"
+              mat-icon-button (click)="toggleHelp()">
+              <span>?</span>
+            </div>
+            <!-- </section> -->
+          </div>
+        </div>
+      </div>
+      <div class="screen-content" fxLayout="column" fxLayoutAlign="start stretch" fxLayout.xs="column"
+        fxLayoutAlign.xs="start stretch">
+        <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="20px" fxLayoutGap.md="10px"
+          fxLayoutGap.sm="0px" fxLayoutGap.xs="0px">
+          <div class="screen-blocks"
+            [@accordionY]="detectDevice?.resolutionState$?.value?.deviceType !== 'desktop' && showHelp ? 'off' : 'on'"
+            fxFlex="1 0" fxFlex.xs="auto">
+            <loader [loader]="contentLoader" [type]="'general'" [classes]=""></loader>
+            <ng-content select="content-area"></ng-content>
+          </div>
+
+          <!-- [ngClass]="{'help-active': displayBlock || !showHelp}" -->
+          <ng-container *ngIf="showInsights && showHelp">
+            <div fxFlex="0 0 260px" fxFlex.sm="100%" fxFlex.xs="100%" @accordionY class="screen-aside" #insights>
+              <loader [loader]="insightsLoader" [type]="'general'" [classes]=""></loader>
+              <ng-content select="insights"></ng-content>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>

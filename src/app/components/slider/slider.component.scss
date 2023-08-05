@@ -1,0 +1,97 @@
+@import 'reusable';
+
+.silder {
+	owl-carousel-o {
+		width: calc(100% - 100px);
+		&.dots-off {
+			// width: calc(100% - 20px);
+			::ng-deep .owl-theme {
+				padding-bottom: 0px;
+			}
+		}
+		::ng-deep .owl-theme {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			place-content: center;
+			align-items: center;
+			padding-bottom: 25px;
+			.owl-stage-outer {
+				width: 100%;
+				margin-bottom: 20px;
+				.owl-item {
+					// padding-right: 20px;
+				}
+			}
+			.owl-nav {
+				justify-content: space-between;
+				align-items: center;
+				margin: 0;
+				flex-direction: row;
+				position: absolute;
+				left: 0;
+				right: 0;
+				&:not(.disabled) {
+					display: flex;
+				}
+				> [class*=owl-] {
+					position: absolute;
+					background: transparent;
+					width: 25px;
+					height: 60px;
+					padding: 10px 0px;
+					margin: 0;
+					transition: 200ms all ease-in;
+					&:hover {
+						background: $secondary-four;
+						// .prev,
+						// .next {
+						// 	background-color: #fff;
+						// }
+					}
+					&.disabled {
+						.prev,
+						.next {
+							background-color: #8a8a8a;
+						}
+					}
+					.prev,
+					.next {
+						background-color: #000;
+						height: 100%;
+						width: 100%;
+						transition: 200ms all ease-in;
+					}
+					&.disabled {
+						pointer-events: none;
+						opacity: .6;
+					}
+				}
+				.owl-prev {
+					left: -45px;
+					.prev {
+						mask: url(/assets/svg/back.svg) no-repeat center;
+					}
+				}
+				.owl-next {
+					right: -45px;
+					.next {
+						mask: url(/assets/svg/next.svg) no-repeat center;
+					}
+				}
+			}
+			.owl-dots {
+				position: absolute;
+				bottom: 0;
+			}
+		}
+	}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.silder {
+		owl-carousel-o {
+			width: 100%;
+		}
+	}
+}

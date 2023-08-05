@@ -1,0 +1,125 @@
+<ng-container *ngIf="alerts?.length">
+  <div class="alert {{cssClass(alert)}}" fxLayoutAlign.xs="start center" *ngFor="let alert of alerts; let i = index">
+    <button mat-icon-button class="close-btn" type="button" (click)="removeAlert(i)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" fxLayoutGap.xs="5px" fxLayout.xs="row"
+      fxLayoutAlign.xs="start center">
+      <div>
+        <ng-container *ngIf="alert?.action?.length">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxLayoutAlign.xs="start stretch"
+            *ngIf="(alert?.action | objectFilter : null : [{ 'key': 'position', 'string' : ['left'], 'condition' : 'equal'}]).length"
+            fxLayoutAlign="center center">
+            <ng-container *ngFor="let record of alert?.action | objectFilter : null : [{ 'key': 'position', 'string' : ['left'],
+              'condition' : 'equal'}]">
+              <ng-container [ngSwitch]="record.type">
+                <img class="alert-round" [ngClass]="record?.classes" *ngSwitchCase="'image'" [src]="record?.url"
+                  [matTooltip]="record?.toolTip" [class]="record?.classes" (click)="actionClick(record)">
+                <ng-container *ngSwitchCase="'icon'">
+                  <mat-icon [matTooltip]="record?.toolTip" [ngClass]="record?.classes"
+                    *ngIf="![null, undefined, ''].includes(record?.icon)" (click)="actionClick(record)">{{record?.icon}}
+                  </mat-icon>
+                  <mat-icon [matTooltip]="record?.toolTip" [ngClass]="record?.classes"
+                    *ngIf="[null, undefined, ''].includes(record?.icon)" [svgIcon]="record?.svgIcon"
+                    (click)="actionClick(record)"></mat-icon>
+                </ng-container>
+                <button *ngSwitchCase="'iconButton'" [matTooltip]="record?.toolTip" mat-icon-button type="button"
+                  [ngClass]="record?.classes" (click)="actionClick(record)">
+                  <mat-icon>{{record?.icon}}</mat-icon>
+                </button>
+                <button *ngSwitchCase="'raisedButton'" class="alert-btn" mat-raised-button
+                  [matTooltip]="record?.toolTip" type="button" [ngClass]="record?.classes"
+                  (click)="actionClick(record)">
+                  {{record?.caption}}
+                </button>
+                <button *ngSwitchCase="'strokedButton'" mat-stroked-button [matTooltip]="record?.toolTip" type="button"
+                  [ngClass]="record?.classes" (click)="actionClick(record)">
+                  {{record?.caption}}
+                </button>
+                <button *ngSwitchCase="'flatButton'" mat-flat-button [matTooltip]="record?.toolTip" type="button"
+                  [ngClass]="record?.classes" (click)="actionClick(record)">
+                  {{record?.caption}}
+                </button>
+                <button *ngSwitchCase="'fabButton'" mat-fab [matTooltip]="record?.toolTip" type="button"
+                  [ngClass]="record?.classes" (click)="actionClick(record)">
+                  {{record?.caption}}
+                </button>
+                <button *ngSwitchCase="'miniFabButton'" mat-mini-fab [matTooltip]="record?.toolTip" type="button"
+                  [ngClass]="record?.classes" (click)="actionClick(record)">
+                  {{record?.caption}}
+                </button>
+                <a *ngSwitchCase="'link'" [ngClass]="record?.classes" class="linkable cursor-pointer"
+                  (click)="actionClick(record)">{{record?.caption}}</a>
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+      <div class="alert-content" fxLayout="row" fxFlex="1 0" fxLayoutAlign="space-between center" fxLayoutGap="2px"
+        fxLayoutGap.xs="0px" fxLayout.xs="column" fxLayoutAlign.xs="start stretch">
+        <div fxFlex="1 0">
+          <ng-container *ngIf="alert?.title?.text">
+            <div [innerHtml]="alert?.title?.text | safeDom" [ngClass]="alert?.title?.classes" class="alert-title">
+            </div>
+          </ng-container>
+          <ng-container *ngIf="alert?.content?.text">
+            <div [innerHtml]="alert?.content?.text | safeDom" [ngClass]="alert?.content?.classes" class="alert-desc">
+            </div>
+          </ng-container>
+        </div>
+        <div>
+          <ng-container *ngIf="alert?.action?.length">
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxLayoutAlign.xs="start stretch"
+              *ngIf="(alert?.action | objectFilter : null : [{ 'key': 'position', 'string' : ['right'], 'condition' :
+              'equal'}]).length">
+              <div *ngFor="let record of alert?.action | objectFilter : null : [{ 'key': 'position', 'string' : ['right'],
+                'condition' : 'equal'}]">
+                <ng-container [ngSwitch]="record.type">
+                  <img class="alert-round" [ngClass]="record?.classes" *ngSwitchCase="'image'" [src]="record?.url"
+                    [matTooltip]="record?.toolTip" [class]="record?.classes" (click)="actionClick(record)">
+                  <ng-container *ngSwitchCase="'icon'">
+                    <mat-icon [matTooltip]="record?.toolTip" [ngClass]="record?.classes"
+                      *ngIf="![null, undefined, ''].includes(record?.icon)" (click)="actionClick(record)">
+                      {{record?.icon}}
+                    </mat-icon>
+                    <mat-icon [matTooltip]="record?.toolTip" [ngClass]="record?.classes"
+                      *ngIf="[null, undefined, ''].includes(record?.icon)" [svgIcon]="record?.svgIcon"
+                      (click)="actionClick(record)"></mat-icon>
+                  </ng-container>
+                  <button *ngSwitchCase="'iconButton'" class="alert-btn" [matTooltip]="record?.toolTip" mat-icon-button
+                    type="button" [ngClass]="record?.classes" (click)="actionClick(record)">
+                    <mat-icon>{{record?.icon}}</mat-icon>
+                  </button>
+                  <button *ngSwitchCase="'raisedButton'" class="alert-btn" mat-raised-button
+                    [matTooltip]="record?.toolTip" type="button" [ngClass]="record?.classes"
+                    (click)="actionClick(record)">
+                    {{record?.caption}}
+                  </button>
+                  <button *ngSwitchCase="'strokedButton'" class="alert-btn" mat-stroked-button
+                    [matTooltip]="record?.toolTip" type="button" [ngClass]="record?.classes"
+                    (click)="actionClick(record)">
+                    {{record?.caption}}
+                  </button>
+                  <button *ngSwitchCase="'flatButton'" class="alert-btn" mat-flat-button [matTooltip]="record?.toolTip"
+                    type="button" [ngClass]="record?.classes" (click)="actionClick(record)">
+                    {{record?.caption}}
+                  </button>
+                  <button *ngSwitchCase="'fabButton'" mat-fab [matTooltip]="record?.toolTip" type="button"
+                    [ngClass]="record?.classes" (click)="actionClick(record)">
+                    {{record?.caption}}
+                  </button>
+                  <button *ngSwitchCase="'miniFabButton'" class="alert-btn" mat-mini-fab [matTooltip]="record?.toolTip"
+                    type="button" [ngClass]="record?.classes" (click)="actionClick(record)">
+                    {{record?.caption}}
+                  </button>
+                  <a *ngSwitchCase="'link'" [ngClass]="record?.classes"
+                    (click)="actionClick(record)">{{record?.caption}}</a>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

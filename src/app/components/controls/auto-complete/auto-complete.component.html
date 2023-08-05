@@ -1,0 +1,100 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+  <!-- <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+    {{field?.fieldCaption}}
+    <span *ngIf="field?.isRequired">*</span>
+  </mat-label> -->
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel"
+      [appearance]="field?.additionalMetaData?.fieldConfig?.appearance" class="text-box">
+      <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+        {{field?.fieldCaption}}
+      </mat-label>
+      <ng-container *ngIf="!field?.isMultiple">
+        <input matInput [autocomplete]="field?.additionalMetaData?.autoFill" [placeholder]="field.fieldPlaceholder"
+          (ngModelChange)="fieldChange()" (focusout)="focusout()" [matAutocomplete]="auto" [required]="field.isRequired"
+          [formControl]="control" [matTooltip]="(control.disabled) ? '' : field.fieldHelpText">
+        <button class="suffix-icon cursor-pointer" mat-icon-button
+          *ngIf="field?.fieldIcon?.suffix && field?.fieldIcon?.suffix?.icon" matSuffix
+          (click)="fieldIconData(field?.fieldIcon?.suffix)" [matTooltip]="field?.fieldIcon?.suffix?.caption"
+          [disabled]="field?.fieldIcon?.suffix?.disabled" type="button">
+          <mat-icon>{{field?.fieldIcon?.suffix?.icon}}</mat-icon>
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="field?.isMultiple">
+        <mat-chip-list #chipList [formControl]="control" [required]="field.isRequired">
+          <ng-container *ngFor="let value of field?.selectedValue; let i=index">
+            <mat-chip selectable removable (removed)="remove(i)" *ngIf="!value?.isDelete">
+              {{(gfService.typeOf(value) === 'object') ? value.value : value}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </ng-container>
+          <input [placeholder]="field.fieldPlaceholder" #fieldInput
+            [matTooltip]="(control.disabled) ? '' : field.fieldHelpText" (focusout)="focusout()" [formControl]="control"
+            [matAutocomplete]="auto" [matChipInputFor]="chipList" (ngModelChange)="fieldChange()"
+            (keypress)="keyPress($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" [required]="field.isRequired"
+            [readonly]="disabled">
+        </mat-chip-list>
+      </ng-container>
+
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayAC"
+        [autoActiveFirstOption]="field?.additionalMetaData?.activeFirstOption || 'false'"
+        (optionSelected)="selected($event)">
+        <ng-container *ngIf="loader">
+          <mat-option disabled>
+            <mat-spinner diameter="20"></mat-spinner>
+          </mat-option>
+        </ng-container>
+        <mat-option *ngFor="let data of fieldData?.options" [value]="data">
+          <!-- {{data.value}} -->
+          <div class="dropdown-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div fxFlex="1 0" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+              [ngClass]="{'user-thumb': (data?.prefix?.type === 'image')}">
+              <ng-container *ngIf="data?.prefix">
+                <ng-container *ngIf="data?.prefix?.type === 'image'">
+                  <div class="thumbnail" [matTooltip]="data?.prefix?.tooltip">
+                    <img [src]="data?.prefix?.value" (error)="gfService.setErrorImage($event, 'broken_image')" alt="">
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="data?.prefix?.type === 'icon'">
+                  <mat-icon>{{data?.prefix?.value}}</mat-icon>
+                </ng-container>
+                <ng-container *ngIf="data?.prefix?.type === 'svgIcon'">
+                  <mat-icon [svgIcon]="data?.prefix?.value"></mat-icon>
+                </ng-container>
+              </ng-container>
+              <div class="short-txt">
+                <p>{{data.value}}</p>
+                <ng-container *ngIf="data?.shortInfo?.length">
+                  <div fxLayout="row" fxLayoutGap="3px" class="short-info">
+                    <ng-container *ngFor="let info of data?.shortInfo; let index = index">
+                      <span>{{info}}</span>
+                      <ng-container *ngIf="index !== (data?.shortInfo?.length - 1)">
+                        <span>|</span>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <ng-container *ngIf="data?.suffix">
+              <ng-container *ngIf="data?.suffix?.type === 'icon'">
+                <mat-icon class="custom-icon">{{data?.suffix?.value}}</mat-icon>
+              </ng-container>
+            </ng-container>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+        {{field.fieldHelpText}}</mat-hint>
+      <mat-error *ngIf="control.errors && control.touched" [innerHtml]="controlFunctions.validationMsg(control, field)">
+      </mat-error>
+    </mat-form-field>
+
+    <ng-container *ngIf="field?.helpLine?.length">
+      <app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+        (helpLineEmit)="helpLineData($event)"></app-help-line>
+    </ng-container>
+  </div>
+</div>

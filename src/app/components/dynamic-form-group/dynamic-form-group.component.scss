@@ -1,0 +1,21 @@
+@import 'reusable';
+
+:host {
+  width: 100%;
+}
+
+.dynamic-form-container {
+  .dynamic-form-block {
+    .remove-icon {
+      @extend %custom-mat-icon;
+      background-color: $secondary-one;
+      color: $white;
+    }
+  }
+
+  .add-icon {
+    @extend %custom-mat-icon;
+    background-color: $secondary-one;
+    color: $white;
+  }
+}

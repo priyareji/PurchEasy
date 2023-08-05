@@ -1,0 +1,49 @@
+<div class="custom-field" [id]="field?.fieldColumn" fxLayout="column" fxLayoutAlign="start stretch">
+	<div class="image-cropper" fxLayout="column" fxLayoutAlign="start stretch">
+		<div fxLayout="row" fxLayoutAlign="start start">
+			<mat-label [ngClass]="{error: (control.errors && control.touched)}"
+				*ngIf="![null, undefined, ''].includes(field.fieldCaption) && field?.additionalMetaData?.showLabel">
+				{{field.fieldCaption}} <span *ngIf="field?.isRequired">*</span></mat-label>
+			<ng-container *ngIf="field?.helpLine?.length">
+				<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+					(helpLineEmit)="helpLineData($event)"></app-help-line>
+			</ng-container>
+		</div>
+		<div class="cropper-block" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="1 1">
+			<div class="img-container">
+				<img class="image-to-crop" [src]="imageURL" [ngStyle]="{'display': (!imageURL) ? 'none' : ''}">
+			</div>
+			<input hidden type="file" accept=".jpg,.jpeg,.png" #uploader (change)="upload($event)" />
+			<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+				<div fxFlex="1 1 auto" *ngIf="field?.additionalMetaData?.zoom && imageURL" fxLayout="column"
+					fxLayoutAlign="start center">
+					<mat-slider (input)="zoomInOut($event)" max="150" [value]="sliderValue"></mat-slider>
+					<div fxLayout="row wrap" class="zoom-desc" fxFlexFill fxLayoutAlign="space-between center" fxLayoutGap="10px">
+						<span>{{ locale.translate('zoom_out') }}</span>
+						<span>{{ locale.translate('zoom_in') }}</span>
+					</div>
+				</div>
+				<div fxFlex="1 1 auto" *ngIf="[null, undefined, ''].includes(imageURL)">
+					{{ locale.translate('crop_image_desc') }}
+				</div>
+				<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+					<button mat-icon-button *ngIf="imageURL && !field.isRequired" (click)="delete()" type="button"
+						matTooltip="Remove image">
+						<mat-icon svgIcon="delete"></mat-icon>
+					</button>
+					<button mat-icon-button (click)="uploader.click()" type="button" matTooltip="Upload image"
+						*ngIf="field?.additionalMetaData?.showUploadIcon">
+						<mat-icon svgIcon="upload_icon"></mat-icon>
+					</button>
+				</div>
+			</div>
+			<mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)"
+				[@slide]="{ value: 'rightIn', params: { colorFrom:'rgba(0, 0, 0, 0.6)', translateFrom: 'translateY(20%)',inTime:'200ms' }}">
+				{{field.fieldHelpText}}</mat-hint>
+			<mat-error *ngIf="control.errors && control.touched"
+				[@slide]="{ value: 'rightIn', params: { colorFrom:'#ff5722', translateFrom: 'translateY(20%)',inTime:'200ms' }}"
+				[innerHtml]="controlFunctions.validationMsg(control, field)">
+			</mat-error>
+		</div>
+	</div>
+</div>

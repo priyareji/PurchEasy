@@ -1,0 +1,12 @@
+<div class="silder" fxLayout="column" fxLayoutAlign="start stretch">
+	<div fxLayout="column" fxLayoutAlign="start center" #slideContainer>
+		<owl-carousel-o *ngIf="canLoad" [options]="options" (dragging)="dragging($event, slider)" (changed)="change($event)"
+			#slider [ngClass]="{ 'dots-off': !options?.dots }">
+			<ng-container *ngFor="let slide of slides; let i = index">
+				<ng-template carouselSlide [id]="'owl-slide-' + (i)">
+					<template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{$implicit: slide}"></template>
+				</ng-template>
+			</ng-container>
+		</owl-carousel-o>
+	</div>
+</div>

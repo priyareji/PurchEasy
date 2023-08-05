@@ -1,0 +1,138 @@
+<div class="search-block" [ngClass]="field?.type" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+  <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+    {{field?.fieldCaption}}
+  </mat-label>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div class="search-info" fxFlex="0 1 600px" fxFlex.xs="100%" fxLayout="row" fxLayoutAlign="start stretch">
+      <ng-container *ngIf="!field?.category?.value && field?.category?.data?.length">
+        <button matPrefix mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon class="drop-icon">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu>
+          <ng-container *ngFor="let category of field?.category?.data">
+            <button type="button" mat-menu-item (click)="categorySelect(category, field?.category?.filterColumn)"
+              [value]="field?.category?.value">
+              <span>{{category.value}}</span>
+            </button>
+          </ng-container>
+        </mat-menu>
+      </ng-container>
+      <ng-container *ngIf="field?.category?.value">
+        <div class="text-info" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <p>{{field?.category?.value.value}}</p>
+          <button mat-icon-button class="clear-icon" (click)="clearCategory()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <!-- <mat-form-field> -->
+      <input [ngStyle]="{'padding-left': (!field?.category?.data?.length) ? '15px' : '0' }" type="text" matInput
+        [matAutocomplete]="auto" [formControl]="control" [placeholder]="field.fieldPlaceholder"
+        (keyup.enter)="searching()">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayAC" (optionSelected)="selected($event)">
+        <ng-container *ngFor="let data of field?.options">
+          <mat-option *ngIf="!data.groupName" [matTooltip]="data.value" [disabled]="data.disabled" [value]="data">
+            <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{data:data}"></ng-container>
+          </mat-option>
+          <ng-container *ngIf="![null, undefined].includes(data.groupName) && data?.options?.length">
+            <!-- <mat-optgroup [label]="data.groupName" [disabled]="data.disabled"> -->
+            <div>
+              {{data.groupName}}
+            </div>
+            <mat-option *ngFor="let data of data.options" [value]="data" [matTooltip]="data.value">
+              <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{data:data}">
+              </ng-container>
+            </mat-option>
+            <!-- </mat-optgroup> -->
+          </ng-container>
+          <ng-template #optionTemplate let-data='data'>
+            <div class="dropdown-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <div fxFlex="1 0" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <ng-container *ngIf="data?.prefix">
+                  <ng-container *ngIf="data?.prefix?.type === 'image'">
+                    <div class="thumbnail" [matTooltip]="data?.prefix?.tooltip">
+                      <img [src]="data?.prefix?.value" (error)="gfService.setErrorImage($event, 'broken_image')" alt="">
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="data?.prefix?.type === 'icon'">
+                    <mat-icon>{{data?.prefix?.value}}</mat-icon>
+                  </ng-container>
+                </ng-container>
+                <div class="short-txt">
+                  <p>{{data.value}}</p>
+                  <ng-container *ngIf="data?.shortInfo?.length">
+                    <div fxLayout="row" fxLayoutGap="3px" class="short-info">
+                      <ng-container *ngFor="let info of data?.shortInfo; let index = index">
+                        <span>{{info?.value}}</span>
+                        <ng-container *ngIf="index !== (data?.shortInfo?.length - 1)">
+                          <span>|</span>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <ng-container *ngIf="data?.suffix">
+                <ng-container *ngIf="data?.suffix?.type === 'icon'">
+                  <mat-icon class="custom-icon">{{data?.suffix?.value}}</mat-icon>
+                </ng-container>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ng-container>
+      </mat-autocomplete>
+      <!-- </mat-form-field> -->
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="suff-icons">
+        <ng-container *ngIf="control?.value">
+          <button mat-icon-button matSuffix class="clear-icon" (click)="clearSearch()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container
+          *ngIf="field.additionalMetaData.filter?.length && (!field?.additionalMetaData?.textBased || control?.value)">
+          <button mat-icon-button matSuffix class="search-icons" #filterAction (click)="filter(filterAction)">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </ng-container>
+        <mat-icon matSuffix class="search-icons common cursor-pointer" (click)="searching()">search</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+    {{field.fieldHelpText}}</mat-hint>
+
+  <ng-container *ngIf="field?.helpLine?.length">
+    <app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+      (helpLineEmit)="helpLineData($event)"></app-help-line>
+  </ng-container>
+  <!----ending-->
+  <ng-container *ngIf="filterValue?.length">
+    <div class="badge-info" fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <ng-container *ngFor="let data of filterValue">
+        <ng-container *ngIf="!data?.hide && data?.value">
+          <!-- <div class="capsule" fxLayout="row" fxLayoutAlign="center stretch">
+						<div class="title-info" fxLayoutAlign="center center">
+							<p class="title">{{data?.fieldCaption}}</p>
+						</div>
+						<div class="value-info" fxLayoutAlign="center center" fxLayoutGap="5px">
+							<p class="value">{{data?.value}}</p>
+							<button mat-icon-button class="remove-icon">
+								<mat-icon class="cursor-pointer" (click)="removeFilter(data)">cancel</mat-icon>
+							</button>
+						</div>
+					</div> -->
+          <!-- <app-chips [data]="{title: data?.fieldCaption, value: data?.value}" [removable]="true"
+						(removed)="removeFilter(data)" type="capsule">
+					</app-chips> -->
+          <app-chips fxFlex="0 0 auto" fxFlex.xs="1 1" class="active-grand-chip" type="royal-capsule" [removable]="true"
+            (removed)="removeFilter(data)" [changeFilter]="false"
+            [data]="{title: data?.fieldCaption, value: data?.value}">
+          </app-chips>
+        </ng-container>
+        <!-- <div class="capsule"> -->
+        <!-- </div> -->
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

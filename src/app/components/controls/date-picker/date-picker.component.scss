@@ -1,0 +1,12 @@
+//SASS File
+@import 'reusable';
+@import 'mixins';
+
+:host{
+  width: 100%;
+}
+
+.highlightDate {
+  background: orange;
+  border-radius: 100%;
+}

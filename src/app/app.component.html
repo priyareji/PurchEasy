@@ -1,0 +1,48 @@
+<!-- <div>
+  <div appThemeSwticher fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="0px" fxFlexFill>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </div>
+</div> -->
+
+<!-- <app-error-notification [expire]="expire"></app-error-notification> -->
+
+<div appThemeSwticher [mode]='mode' fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="0px" fxFlexFill>
+  <ng-container *ngIf="!localeChanges">
+    <ng-container *ngIf="isLogin">
+      <header>
+        <app-header [sideNavState]="onSideNavChange"></app-header>
+      </header>
+    </ng-container>
+    <mat-sidenav-container fxFlex="1 0" class="side-nav-container">
+      <mat-sidenav-content class="side-nav-content" (scroll)="onScroll($event)"
+        [ngStyle]="{'overflow-y': (isLogin) ? '' : 'auto'}">
+        <ng-container *ngIf="isLogin">
+          <div id="scrollReset"></div>
+        </ng-container>
+        <div fxLayout="row" class="site-content">
+          <ng-container *ngIf="isLogin && detectDevice?.resolutionState$?.value?.deviceType !== 'mobile'">
+            <app-sidebar></app-sidebar>
+          </ng-container>
+          <div fxFlex="1 1 auto" class="container">
+            <ng-container *ngIf="isLogin">
+              <!-- <mat-divider class="custom-divider sticky-divider"></mat-divider> -->
+            </ng-container>
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <ng-container *ngIf="loader">
+      <div fxLayout="column" fxLayoutAlign="center center" class="page-loader" fxLayoutGap="10px">
+        <!-- <div class="loader"></div>-->
+        <div class="loader">
+          <img class="main-loader-img" src="assets/img/loading-bw4.gif">
+        </div>
+        <p class="loading_text">{{locale.translate("loading_text")}}</p>
+      </div>
+    </ng-container>
+  </ng-container>
+  <loader [loader]="localeChanges" [type]="'updater'"></loader>
+</div>

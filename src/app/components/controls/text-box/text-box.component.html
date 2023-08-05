@@ -1,0 +1,51 @@
+<div class="custom-field" [id]="field?.fieldColumn">
+
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="text-box" [floatLabel]="field?.additionalMetaData?.fieldConfig?.floatLabel"
+      [appearance]="field?.additionalMetaData?.fieldConfig?.appearance">
+      <mat-label *ngIf="![null, undefined, ''].includes(field?.fieldCaption) && field?.additionalMetaData?.showLabel">
+        {{field?.fieldCaption}}
+      </mat-label>
+      <input matInput [placeholder]="field.fieldPlaceholder" (paste)="onPaste($event)"
+        [ngStyle]="{'text-transform':(field?.additionalMetaData && field?.additionalMetaData?.hasOwnProperty('capLock') && field?.additionalMetaData?.capLock) ? 'uppercase' : 'none' }"
+        [formControl]="control" [min]="field.additionalMetaData?.min || ''" [max]="field.additionalMetaData?.max || ''"
+        [attr.minlength]="field.additionalMetaData?.minChar || ''"
+        [attr.maxlength]="field.additionalMetaData?.maxChar || ''" [pattern]="field.validationRegex"
+        [matTooltip]="(control.disabled) ? '' : field.fieldHelpText" (input)="removeSpace($event,field); fieldChange()"
+        [required]="field.isRequired" [readonly]="field.isReadonly" [type]="field?.type"
+        [autocomplete]="field?.additionalMetaData?.autoFill">
+      <button class="suffix-icon cursor-pointer" mat-icon-button *ngIf="field?.fieldIcon?.suffix && field?.fieldIcon?.suffix?.icon" matSuffix
+        (click)="fieldIconData(field?.fieldIcon?.suffix)"
+        [matTooltip]="field?.fieldIcon?.suffix?.caption" [disabled]="field?.fieldIcon?.suffix?.disabled" type="button">
+        <mat-icon>{{field?.fieldIcon?.suffix?.icon}}</mat-icon>
+      </button>
+      <p *ngIf="field?.fieldIcon?.suffix?.caption && !field?.fieldIcon?.suffix?.icon" matSuffix>
+        {{field?.fieldIcon?.suffix?.caption}}</p>
+      <button class="suffix-icon" mat-icon-button *ngIf="field?.fieldIcon?.prefix && field?.fieldIcon?.prefix?.icon" matPrefix
+        class="cursor-pointer" (click)="fieldIconData(field?.fieldIcon?.prefix)"
+        [matTooltip]="field?.fieldIcon?.prefix?.caption" [disabled]="field?.fieldIcon?.prefix?.disabled" type="button">
+        <mat-icon>{{field?.fieldIcon?.prefix?.icon}}</mat-icon>
+      </button>
+      <p class="prefix" *ngIf="field?.fieldIcon?.prefix?.caption && !field?.fieldIcon?.prefix?.icon" matPrefix>
+        {{field?.fieldIcon?.prefix?.caption}}</p>
+      <mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)">
+        {{field.fieldHelpText}}</mat-hint>
+      <mat-error *ngIf="control.errors && control.touched" [innerHtml]="controlFunctions.validationMsg(control, field)">
+      </mat-error>
+    </mat-form-field>
+
+    <ng-container *ngIf="field?.helpLine?.length">
+      <app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+        (helpLineEmit)="helpLineData($event)"></app-help-line>
+    </ng-container>
+  </div>
+
+  <ng-container *ngIf="field.type === 'password' && field.additionalMetaData.showPasswordStrength">
+    <div class="text-strength">
+      <div class="progress">
+        <div class="state" [ngStyle]="progressState"></div>
+      </div>
+      <div class="strength-state">{{stateMsg}}</div>
+    </div>
+  </ng-container>
+</div>

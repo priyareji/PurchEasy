@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="0px" class="readability">
+	<div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="5px"
+		[@accordion]="{ value: accordion, params: {'height': height+'px'}}" [@.disabled]="disableAnimation">
+		<ng-content select="content"></ng-content>
+		<!-- <ng-container *ngIf="showMore && line && !height">
+			<ng-container *ngIf="canRead">
+				<a class="read-more-text cursor-pointer" (click)="processContent()">{{(expaned) ? 'see less' : 'see more'}}</a>
+			</ng-container>
+			<ng-container *ngIf="!canRead">
+				<p>...</p>
+			</ng-container>
+		</ng-container> -->
+	</div>
+	<ng-container *ngIf="type && showMore && height && canRead">
+		<div fxLayout="column">
+			<ng-container *ngIf="type === 'icon'">
+				<div fxLayoutAlign="center center">
+					<button mat-icon-button (click)="processContent()" class="read-more-btn">
+						<!-- <mat-icon>{{(expaned) ? 'expand_less' : 'expand_more'}}</mat-icon> -->
+
+						<mat-icon [svgIcon]="(expaned) ? 'arrow-up' : 'arrow-down'"></mat-icon>
+
+						<!-- <mat-icon svgIcon="arrow-down"></mat-icon>
+						<mat-icon svgIcon="arrow-up"></mat-icon> -->
+					</button>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="type === 'general'">
+				<div fxLayoutAlign="end center">
+					<a class="read-more-text cursor-pointer hyperlink"
+						(click)="processContent()">{{(expaned) ? locale.translate('see_less') : locale.translate('see_more') }}</a>
+				</div>
+			</ng-container>
+		</div>
+	</ng-container>
+	<!-- <div fxLayout="column" fxLayoutAlign="center center">
+		<ng-container *ngIf="showMore && height && canRead">
+			<button mat-icon-button (click)="processContent()" class="read-more-btn">
+				<mat-icon>{{(expaned) ? 'expand_less' : 'expand_more'}}</mat-icon>
+			</button>
+		</ng-container>
+	</div> -->
+</div>

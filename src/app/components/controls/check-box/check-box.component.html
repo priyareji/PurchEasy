@@ -1,0 +1,31 @@
+<div class="custom-field" [id]="field?.fieldColumn" fxLayout="row" fxLayoutAlign="start start">
+	<div class="checkbox" fxLayout="column" fxLayoutAlign="start start">
+
+		<div fxLayout="row" fxLayoutAlign="start start">
+			<mat-label [ngClass]="{error: (control.errors && control.touched)}"
+				*ngIf="![null, undefined, ''].includes(field.fieldCaption) && field?.additionalMetaData?.showLabel">
+				{{field.fieldCaption}} <span *ngIf="field?.isRequired">*</span></mat-label>
+			<ng-container *ngIf="field?.helpLine?.length">
+				<app-help-line [helpLineData]="field.helpLine" fxLayout="row" fxLayoutAlign="start start"
+					(helpLineEmit)="helpLineData($event)"></app-help-line>
+			</ng-container>
+		</div>
+		<div [formGroup]="control" fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="start start"
+			fxLayoutAlign.xs="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="0px" fxLayoutGap.sm="0px">
+			<mat-checkbox class="checkbox-options" color="primary" *ngFor="let data of field.options, let i = index"
+				[formControl]="control.controls[i]" [labelPosition]='field.additionalMetaData.labelPosition'
+				[indeterminate]="data.indeterminate">
+				{{data.value}}
+			</mat-checkbox>
+			<mat-hint *ngIf="(control.untouched || control.valid) && ![null, undefined, ''].includes(field.fieldHelpText)"
+				[@slide]="{ value: 'rightIn', params: { colorFrom:'rgba(0, 0, 0, 0.6)', translateFrom: 'translateY(30%)',inTime:'200ms' }}">
+				{{field.fieldHelpText}}</mat-hint>
+			<mat-error *ngIf="control.errors && control.touched"
+				[@slide]="{ value: 'rightIn', params: { colorFrom:'#ff5722', translateFrom: 'translateY(30%)',inTime:'200ms' }}"
+				[innerHtml]="controlFunctions.validationMsg(control, field)">
+			</mat-error>
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,75 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+:host {
+	width: 100%;
+}
+
+.text-box {
+	.suffix-icon {
+		@extend %custom-icon-btn;
+
+		mat-icon {
+			@extend %custom-mat-icon;
+			font-size: 18px;
+		}
+	}
+}
+
+.dropdown-item {
+
+	.thumbnail {
+		padding-top: 13px;
+
+		img {
+			width: 25px;
+			height: 25px;
+			border-radius: 50%;
+			border: 1px solid $secondary-four;
+		}
+	}
+
+	.short-txt {
+		@extend %sub-text-1;
+		margin-bottom: 4px;
+	}
+	.user-thumb {
+		.short-txt {
+			>p {
+				text-transform: capitalize;
+
+			}
+		}
+	}
+	.custom-icon {
+		@extend %custom-mat-icon;
+		margin-right: 0px !important;
+	}
+}
+
+::ng-deep .progressive-list {
+	.progressive-item {
+
+		.slider-process {
+
+			&.slider-process-bg {
+				box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.1);
+				background-color: $white;
+				padding: 0px 10px;
+			}
+
+			.level-hint {
+				@extend %sub-caption-2;
+				color: color($primary-two);
+			}
+
+			.help-icon {
+				@extend %custom-mat-icon;
+				color: color($primary-two);
+				border-radius: 100%;
+				font-size: 1em;
+			}
+		}
+	}
+}

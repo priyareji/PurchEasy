@@ -1,0 +1,88 @@
+<ng-container [ngSwitch]="type" *ngIf="loader">
+	<ng-container *ngSwitchCase="'general'">
+		<div fxLayoutAlign="center start" class="general-overlay" [ngClass]="classes">
+			<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+				<div class="loader">
+					<!-- <svg viewBox="0 0 64 64">
+						<g>
+							<defs>
+								<linearGradient id="sGD" gradientUnits="userSpaceOnUse" x1="55" y1="46" x2="2" y2="46">
+									<stop offset="0.1" class="stop1"></stop>
+									<stop offset="1" class="stop2"></stop>
+								</linearGradient>
+							</defs>
+							<g stroke-width="4" stroke-linecap="round" fill="none" transform="rotate(196.586 32 32)">
+								<path stroke="url(#sGD)" d="M4,32 c0,15,12,28,28,28c8,0,16-4,21-9"></path>
+								<path d="M60,32 C60,16,47.464,4,32,4S4,16,4,32"></path>
+								<animateTransform values="0,32,32;360,32,32" attributeName="transform" type="rotate"
+									repeatCount="indefinite" dur="750ms"></animateTransform>
+							</g>
+						</g>
+					</svg> -->
+					<img class="loader-img" src="assets/img/loading-bw4.gif">
+				</div>
+				<ng-container *ngIf="data?.msg">
+					<div fxLayoutAlign="center center">
+						<p class="sub-text-1">{{data?.msg}}</p>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</ng-container>
+	<ng-container *ngSwitchCase="'updater'">
+		<div fxLayoutAlign="center center" class="updater-overlay" [ngClass]="classes">
+			<div class="loader" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+				<mat-icon>{{data?.icon}}</mat-icon>
+				<p>{{data?.msg}}</p>
+			</div>
+		</div>
+	</ng-container>
+	<ng-container *ngSwitchCase="'user-row-shimmer'">
+		<div class="shimmer" fxLayout="column" fxLayoutAlign="start stretch">
+			<div class="bg-active" fxFlex="5px"></div>
+			<div fxFlex="32px" fxLayout="row" fxLayoutAlign="space-between stretch">
+				<div fxFlex="50px" class="thumbnail-circle"></div>
+				<div class="bg-active" fxFlex="10px"></div>
+				<div fxFlex="1 1 90%" fxFlex.xs="1 1 100%" fxLayout="column" fxLayoutAlign="start stretch">
+					<div class="bg-active" fxFlex="5px"></div>
+					<div fxFlex="10px" fxLayout="row" fxLayoutAlign="start stretch">
+						<div fxFlex="1 1 60%"></div>
+						<div class="bg-active" fxFlex="1 1"></div>
+					</div>
+					<div class="bg-active" fxFlex="5px"></div>
+					<div fxFlex="10px" fxLayout="row" fxLayoutAlign="start stretch">
+						<div fxFlex="1 1"></div>
+						<div class="bg-active" fxFlex="1 1 30px"></div>
+					</div>
+					<div class="bg-active" fxFlex="1 1"></div>
+				</div>
+				<div class="bg-active" fxFlex="1 1 40%" fxFlex.xs="1 1 10%"></div>
+			</div>
+			<div class="bg-active" fxFlex="1 1"></div>
+		</div>
+	</ng-container>
+	<ng-container *ngSwitchCase="'playlist-header-shimmer'">
+		<div class="shimmer" fxLayout="column" fxLayoutAlign="start stretch">
+			<div class="bg-active" fxFlex="5px"></div>
+			<div fxFlex="32px" fxLayout="row" fxLayoutAlign="space-between stretch">
+				<div fxFlex="50px" class="thumbnail-circle"></div>
+				<div class="bg-active" fxFlex="10px"></div>
+				<div fxFlex="1 1 90%" fxFlex.xs="1 1 100%" fxLayout="column" fxLayoutAlign="start stretch">
+					<div class="bg-active" fxFlex="5px"></div>
+					<div fxFlex="10px" fxLayout="row" fxLayoutAlign="start stretch">
+						<div fxFlex="1 1 60%"></div>
+						<div class="bg-active" fxFlex="1 1"></div>
+					</div>
+					<div class="bg-active" fxFlex="5px"></div>
+					<div fxFlex="10px" fxLayout="row" fxLayoutAlign="start stretch">
+						<div fxFlex="1 1"></div>
+						<div class="bg-active" fxFlex="1 1 30px"></div>
+					</div>
+					<div class="bg-active" fxFlex="1 1"></div>
+				</div>
+				<div class="bg-active" fxFlex="1 1 40%" fxFlex.xs="1 1 10%"></div>
+			</div>
+			<div class="bg-active" fxFlex="1 1"></div>
+		</div>
+	</ng-container>
+</ng-container>

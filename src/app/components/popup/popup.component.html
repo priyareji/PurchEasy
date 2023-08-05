@@ -1,0 +1,168 @@
+<section class="container" *ngIf="data?.action === 'dynamic'" #sample>
+  <!-- <ng-container *ngIf="loader">
+    <div fxLayoutAlign="center start" class="loader-overlay">
+      <div class="loader">
+        <img src="assets/svg/loader.svg" alt="">
+      </div>
+    </div>
+  </ng-container> -->
+  <div>
+    <div class="close-icon cursor-pointer" (click)="close()">
+      <mat-icon matRipple>close</mat-icon>
+    </div>
+  </div>
+  <loader [loader]="loader || popupLoader" [type]="'general'" [classes]=""></loader>
+  <!-- <ng-container *ngComponentOutlet="data.component"></ng-container> -->
+  <ng-template #content></ng-template>
+</section>
+
+
+<ng-container *ngIf="data?.action === 'alert'">
+  <section class="container alert-popup" [ngClass]="data?.classes">
+    <div>
+      <div class="close-icon cursor-pointer" (click)="close()">
+        <mat-icon matRipple>close</mat-icon>
+      </div>
+    </div>
+    <loader [loader]="loader" [type]="'general'" [classes]=""></loader>
+    <div class="alert-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutAlign.xs="center stretch"
+      fxLayoutGap="40px">
+      <div class="alert-header" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <ng-container *ngIf="![null,undefined].includes(data?.title)">
+          <div class="title" [innerHtml]="data?.title | safeDom"></div>
+        </ng-container>
+      </div>
+      <div class="alert-content" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="28px">
+        <div class="alert-body" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <ng-container *ngIf="data?.svgIcon || data?.icon">
+              <mat-icon class="alert-icon" [svgIcon]="data?.svgIcon">{{data?.icon}}</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="![null,undefined].includes(data?.content)">
+              <div class="confirm-info" [innerHtml]="data?.content | safeDom"></div>
+            </ng-container>
+          </div>
+        </div>
+        <ng-container *ngIf="data?.buttons.length">
+          <div class="alert-footer" fxLayout="column" fxLayoutAlign="start stretch">
+            <div class="button-block" #buttonContainer fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+              <ng-container *ngFor="let button of data?.buttons">
+                <ng-container [ngSwitch]="button.type">
+                  <ng-container *ngSwitchCase="'main-action'">
+                    <button mat-stroked-button [autofocus]="button?.autoFocus" class="main-action"
+                      [ngClass]="button?.classes" (click)="buttonTrigger(button)">{{button?.caption}}</button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'main-action-cancel'">
+                    <button mat-button [autofocus]="button?.autoFocus" class="main-action-cancel"
+                      [ngClass]="button?.classes" (click)="buttonTrigger(button)">{{button?.caption}}</button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'sub-action'">
+                    <button mat-stroked-button [autofocus]="button?.autoFocus" class="sub-action"
+                      [ngClass]="button?.classes" (click)="buttonTrigger(button)">{{button?.caption}}</button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'sub-action-cancel'">
+                    <button mat-button [autofocus]="button?.autoFocus" class="sub-action-cancel"
+                      [ngClass]="button?.classes" (click)="buttonTrigger(button)">{{button?.caption}}</button>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+</ng-container>
+
+<ng-container *ngIf="data?.action === 'filter'">
+  <section class="container filter-popup" [ngClass]="data?.classes">
+    <div>
+      <div class="close-icon cursor-pointer" (click)="dialogRef.close()">
+        <mat-icon matRipple>close</mat-icon>
+      </div>
+    </div>
+    <div class="filter-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutAlign.xs="center stretch"
+      fxLayoutGap="40px">
+      <div class="filter-header" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <div class="title">{{locale.translate('filters')}}</div>
+      </div>
+      <div class="filter-content" fxLayout="column" fxLayoutAlign="start stretch">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLayout="column" fxLayoutAlign="start stretch" fxFlex="0 1 486px" fxFlex.xs="100" fxLayoutGap="20px">
+            <div class="filter-body">
+              <ng-container *ngIf="!loader">
+                <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+                  <ng-container *ngFor="let field of data?.fieldList">
+                    <ng-container *ngIf="!field?.isHidden">
+                      <ng-container [ngSwitch]="field?.fieldType">
+                        <ng-container *ngSwitchCase="'textBox'">
+                          <app-text-box [field]="field" [control]="form?.controls[field.fieldColumn]"
+                            [id]="field.fieldColumn" [fxFlex]="data?.config?.fxFlex || 'auto'">
+                          </app-text-box>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'textArea'">
+                          <app-text-area [field]="field" [control]="form.controls[field.fieldColumn]"
+                            [id]="field.fieldColumn" [fxFlex]="data?.config?.fxFlex || 'auto'">
+                          </app-text-area>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'dropDown'">
+                          <app-drop-down [field]="field" [control]="form.controls[field.fieldColumn]"
+                            [id]="field.fieldColumn" [fxFlex]="data?.config?.fxFlex || 'auto'">
+                          </app-drop-down>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'autoComplete'">
+                          <app-auto-complete [field]="field" [control]="form.controls[field.fieldColumn]"
+                            [id]="field.fieldColumn" [fxFlex]="data?.config?.fxFlex || 'auto'">
+                          </app-auto-complete>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'owlDate'">
+                          <app-owl-date-picker [field]="field" [control]="form.controls[field.fieldColumn]"
+                            [id]="field.fieldColumn" [fxFlex]="data?.config?.fxFlex || 'auto'">
+                          </app-owl-date-picker>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+            <div class="filter-footer" fxLayout="column" fxLayoutAlign="start stretch">
+              <div class="button-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+                <button [disabled]="submitDisable" mat-stroked-button class="main-action" type="button"
+                  (click)="search()" appAutoFocus>{{locale.translate('ok')}}</button>
+                <button [disabled]="submitDisable" mat-button class="main-action-cancel" type="button"
+                  (click)="dialogRef.close()">{{locale.translate('cancel')}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-container>
+
+
+<ng-container *ngIf="data?.action === 'updateApplication'">
+  <section class="container form-popup" [ngClass]="data?.classes">
+    <div class="form-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutAlign.xs="center stretch"
+      fxLayoutGap="40px">
+      <div class="form-content" fxLayout="column" fxLayoutAlign="start stretch">
+        <div fxLayout="column" fxLayoutAlign="start stretch">
+          <div fxLayout="column" fxLayoutAlign="center center" fxFlex="0 1 170px" fxFlex.xs="100" fxLayoutGap="30px">
+            <div class="form-body" fxLayout="row" fxLayoutAlign="center center">
+              {{locale.translate('new_version_is_available_update_it_now')}}
+            </div>
+            <div class="form-footer" fxLayout="column" fxLayoutAlign="start stretch">
+              <div class="button-block" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+                <button [disabled]="submitDisable" mat-stroked-button class="main-action" type="button"
+                  (click)="dialogRef.close('update')" appAutoFocus>{{locale.translate('update')}}</button>
+                <button [disabled]="submitDisable" mat-button class="main-action-cancel" type="button"
+                  (click)="dialogRef.close()">{{locale.translate('may_be_later')}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-container>

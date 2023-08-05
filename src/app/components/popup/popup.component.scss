@@ -1,0 +1,211 @@
+//SASS File
+@import "reusable";
+@import "mixins";
+
+section {
+  &.container {
+
+    .close-icon {
+      &.close-while-scroll {
+        right: 6px;
+      }
+    }
+
+    .button-block {
+      .main-action {
+        @extend %action-secondary-btn;
+      }
+
+      .main-action-cancel {
+        @extend %action-btn;
+      }
+
+      .sub-action {
+        @extend %sub-action-btn;
+      }
+
+      .sub-action-cancel {
+        @extend %sub-action-cancel-btn;
+      }
+    }
+
+    &.alert-popup {
+      min-height: auto;
+
+      .alert-container {
+        padding: 24px;
+
+        .alert-header {
+          .title {
+            @extend %page-title;
+          }
+        }
+
+        .alert-content {
+          .alert-body {
+            .alert-icon {
+              @extend %custom-mat-icon;
+            }
+
+            .confirm-info {
+              @extend %body-text;
+              // .block-confirmation {
+              // 	margin-bottom:6px;
+              // }
+            }
+          }
+
+          .alert-footer {
+            // .button-block {
+            // 	.main-action {
+            // 		@extend %action-btn;
+            // 	}
+
+            // 	.main-action-cancel {
+            // 		@extend %action-cancel-btn;
+            // 	}
+
+            // 	.sub-action {
+            // 		@extend %sub-action-btn;
+            // 	}
+
+            // 	.sub-action-cancel {
+            // 		@extend %sub-action-cancel-btn;
+            // 	}
+            // }
+          }
+        }
+      }
+
+      &.warning {
+        .alert-container {
+          .alert-content {
+            .alert-body {
+              .alert-icon {
+                color: $warning;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.filter-popup {
+      min-height: auto;
+
+      .filter-container {
+        padding: 24px;
+
+        .filter-header {
+          .title {
+            @extend %page-title;
+          }
+        }
+
+        .filter-content {
+          .filter-footer {
+            // .button-block {
+            // 	.main-action {
+            // 		@extend %action-btn;
+            // 	}
+
+            // 	.main-action-cancel {
+            // 		@extend %action-cancel-btn;
+            // 	}
+
+            // 	.sub-action {
+            // 		@extend %sub-action-btn;
+            // 	}
+
+            // 	.sub-action-cancel {
+            // 		@extend %sub-action-cancel-btn;
+            // 	}
+            // }
+          }
+        }
+      }
+    }
+
+    &.form-popup {
+      min-height: auto;
+
+      .form-container {
+        padding: 24px;
+        margin-bottom: 0px;
+
+        .form-header {
+          .title {
+            @extend %page-title;
+          }
+        }
+
+        .form-content {
+          .form-body {}
+
+          .form-footer {
+            // .button-block {
+            // 	.main-action {
+            // 		@extend %action-btn;
+            // 	}
+
+            // 	.main-action-cancel {
+            // 		@extend %action-cancel-btn;
+            // 	}
+
+            // 	.sub-action {
+            // 		@extend %sub-action-btn;
+            // 	}
+
+            // 	.sub-action-cancel {
+            // 		@extend %sub-action-cancel-btn;
+            // 	}
+            // }
+          }
+        }
+      }
+    }
+
+    &.users-popup {
+      min-height: auto;
+
+      .users-container {
+        padding: 24px;
+
+        .users-header {
+          .title {
+            @extend %page-title;
+          }
+        }
+
+        .users-content {
+          padding: 10px;
+        }
+      }
+    }
+
+    &.permission-check-popup {
+      .permission-container {
+        .permission-block {
+          padding: 28px;
+
+          .permission-header {
+            .common-icon {
+              @extend %custom-mat-icon;
+              color: color($primary-two);
+              font-size: 3em;
+            }
+          }
+
+          .permission-body {
+            .caption {
+              @extend %caption;
+              text-align: center;
+            }
+          }
+
+          .permission-footer {}
+        }
+      }
+    }
+  }
+}

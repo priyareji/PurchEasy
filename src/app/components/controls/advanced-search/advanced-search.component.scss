@@ -1,0 +1,191 @@
+@import "reusable";
+@import "mixins";
+
+.search-block {
+	padding: 0 10px;
+
+	&.general {
+		.search-info {
+			border: 2px solid $secondary-four;
+		}
+	}
+
+	&.classic {
+		.search-info {
+			border-bottom: 2px solid $secondary-four;
+
+			.text-info {
+				.clear-icon {
+					@extend %custom-icon-btn;
+				}
+			}
+
+			.suff-icons {
+				.clear-icon {
+					@extend %custom-icon-btn;
+				}
+			}
+		}
+	}
+
+	.search-info {
+		font-size: 1em;
+		padding: 0 10px 0px 0px;
+		min-height: 44px;
+
+		.drop-icon {
+			color: $secondary-three;
+			font-size: 24px;
+		}
+
+		input[type="text"] {
+			width: 100%;
+			border: none;
+			background-color: inherit;
+		}
+
+		.mat-list-icon {
+			color: rgba(0, 0, 0, 0.54);
+		}
+
+		.text-info {
+			// background-color: $secondary-three;
+			padding: 0px 10px;
+
+			p {
+				@extend %body-text;
+			}
+
+			.clear-icon {
+				mat-icon {
+					@extend %custom-mat-icon;
+					background-color: $white;
+				}
+			}
+		}
+
+		.suff-icons {
+			.clear-icon {
+				color: $secondary-three;
+			}
+
+			.search-icons {
+				color: $secondary-three;
+				font-size: 24px;
+
+				// &.common {
+				// 	padding-top: 10px;
+				// }
+			}
+		}
+
+		.searchlist-wrap {
+			.searchlist-block {
+				.searchlist-item {
+					.search-icons {
+						@extend %custom-mat-icon;
+						color: $secondary-four;
+					}
+				}
+			}
+		}
+	}
+
+	.badge-info {
+		// margin: 0px 35px;
+
+		.capsule {
+			height: 100%;
+			margin: 5px;
+
+			.title-info {
+				padding: 6px;
+				background-color: $secondary-four;
+				border-radius: 50px 0px 0px 50px;
+				min-width: 80px;
+
+				.title {
+					@extend %sub-caption-2;
+					@extend %text-ellipsis;
+				}
+			}
+
+			.value-info {
+				background-color: $secondary-five;
+				padding: 6px;
+				border-radius: 0px 50px 50px 0px;
+
+				.value {
+					@extend %sub-text-1;
+					@extend %text-ellipsis;
+				}
+
+				.remove-icon {
+					width: 20px;
+					height: 20px;
+					font-size: 11px;
+					line-height: 1;
+
+					mat-icon {
+						@extend %custom-mat-icon;
+						color: $secondary-two;
+					}
+				}
+			}
+		}
+	}
+
+	.nav-list {
+		.nav-item {
+			position: relative;
+			cursor: pointer;
+			margin-bottom: 15px;
+
+			.nav-icon {
+				@extend %custom-mat-icon;
+				color: $secondary-three;
+				font-size: 16px;
+			}
+
+			.nav-info {
+				@extend %sub-caption-1;
+				font-size: 14px;
+			}
+
+			.down-line {
+				position: absolute;
+				background-color: color($primary-two);
+				height: 2px;
+				top: 27px;
+				left: 0px;
+				right: 0px;
+				display: none;
+			}
+
+			&:hover,
+			&.active {
+				.nav-info {
+					color: color($primary-two);
+				}
+
+				.nav-icon {
+					color: color($primary-two);
+				}
+
+				.down-line {
+					display: block;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.search-block {
+		padding: 0px;
+
+		.badge-info {
+			margin: 0px;
+		}
+	}
+}

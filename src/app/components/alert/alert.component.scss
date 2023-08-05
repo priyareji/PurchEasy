@@ -1,0 +1,86 @@
+//SASS File
+@import 'reusable';
+@import 'mixins';
+
+:host {
+  width: 100%;
+}
+
+.alert {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  position: relative;
+	background-color: $secondary-four;
+
+
+  .close-btn {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: auto;
+    height: auto;
+    line-height: 1;
+
+    .material-icons {
+      @extend %custom-mat-icon;
+      font-size: 12px;
+    }
+  }
+
+  .alert-content {
+    .alert-title {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.3em;
+    }
+
+    .alert-desc {
+      //   color: $secondary;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.3em;
+
+      &:hover {
+        // color: $primary-font;
+      }
+    }
+  }
+
+  .alert-round {
+    // border: 1px solid $mode-secondary;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+  }
+
+  .linkable {
+    text-decoration: underline;
+    font-size: 12px;
+  }
+
+  .alert-btn {}
+
+  &.alert-success {
+    .status-icon {
+      color: $alert-success;
+    }
+  }
+
+  &.alert-danger {
+    .status-icon {
+      color: $alert-danger;
+    }
+  }
+
+  &.alert-info {
+    .status-icon {
+      color: $alert-info;
+    }
+  }
+
+  &.alert-warning {
+    .status-icon {
+      color: $alert-warn;
+    }
+  }
+}

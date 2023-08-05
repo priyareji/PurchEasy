@@ -1,0 +1,81 @@
+// @import "reusable";
+@import "mixins";
+
+:host {
+	width: 100%;
+	height: 100%;
+}
+.custom-field {
+	height: 100%;
+	.image-cropper {
+		padding-bottom: 1.5em;
+		position: relative;
+		margin-bottom: 5px;
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+
+		mat-label {
+			&.error {
+				color: #ff5722;
+			}
+		}
+
+		app-help-line {
+			padding: 0 5px;
+			margin: 0;
+		}
+
+		.cropper-block {
+			height: 100%;
+			::ng-deep mat-slider {
+				height: 20px;
+				padding: 0;
+				width: 95%;
+				margin: 0 auto;
+				.mat-slider-wrapper {
+					top: 47%;
+				}
+			}
+
+			.zoom-desc {
+				font-size: 10px;
+				line-height: 14px;
+			}
+
+			mat-hint {
+				margin-top: 8px;
+			}
+
+			mat-error {
+				margin-top: 8px;
+			}
+
+			.mat-error {
+				font-size: 0.8em;
+				position: absolute;
+				bottom: 5px;
+			}
+			.img-container {
+				max-width: 100%;
+				height: 100%;
+				.image-to-crop {
+					width: 100%;
+					max-width: 100%;
+					max-height: 400px;
+				}
+			}
+			::ng-deep .round {
+				.cropper-view-box,
+				.cropper-face {
+					border-radius: 50%;
+				}
+			}
+
+			::ng-deep .cropper-container {
+				//   width: 100% !important;
+				//   height: 100% !important;
+			}
+		}
+	}
+}

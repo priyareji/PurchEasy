@@ -1,0 +1,116 @@
+<div class="table-container" fxFlexFill fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayout.xs="column"
+    fxLayoutAlign.xs="start end" fxLayoutGap.xs="10px">
+    <div>
+      <button mat-button *ngIf="filterJson?.clearAll" (click)="clearFilter()">
+        {{ locale.translate('clear_all') }}
+      </button>
+    </div>
+    <!-- <div class="filtered" fxLayoutAlign="start start" fxLayoutGap="10px" fxLayout.xs="column"
+      fxLayoutAlign.xs="start start" fxLayoutGap.xs="10px">
+      <mat-chip-list class="chip-group">
+        <mat-chip removable class="chip-item">
+          test sdfsdfsdfsdfsd sdf sdf sdfds f
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div> -->
+  </div>
+  <ng-container *ngIf="!loader">
+    <div class="table-content" [fxFlex]="(['edge'].includes(browserName)) ? '1 1 auto' : '1 1'">
+      <!-- <div class="scroller" *ngIf="!['edge'].includes(browserName)"
+      [ngStyle]="{ 'top': (isHeaderField) ? '9em' : '4.4em' }" (scroll)="onScrollerScroll($event, scrollState)">
+      <div class="scroller-content"></div>
+    </div> -->
+      <div class="table" (scroll)="onTableScroll($event, scrollState)">
+        <table fxFlexFill mat-table [dataSource]="records" multiTemplateDataRows [trackBy]="trackByFn" matSort
+          matSortActive="position" matSortDisableClear matSortDirection="desc" (matSortChange)="sortChange($event)">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select" *ngIf="options?.selectionData">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                *ngIf="![null, undefined, ''].includes(record) && record.length && ((!options?.selectionData?.hasOwnProperty('groupBy')) || (options?.selectionData?.groupBy && selectionArr.hasValue()))"
+                (change)="$event ? masterToggle() : null" [checked]="selectionArr.hasValue() && isAllSelected()"
+                [indeterminate]="selectionArr.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                *ngIf="(!row?.selectionData?.hasOwnProperty('visible')) || (row.hasOwnProperty('selectionData') && row?.selectionData?.visible)"
+                [disabled]="row?.selectionData?.disabled" (click)="$event.stopPropagation()"
+                (change)="$event ? selectionArr.toggle(row) : null; selectionChange(row, $event)"
+                [checked]="selectionArr.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container *ngFor="let header of headers" [matColumnDef]="header?.column"
+            [stickyEnd]="header?.column === 'action'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!header?.isSort"> {{header?.caption}}
+            </th>
+            <td mat-cell *matCellDef="let record"
+              (click)="(header?.column !== 'action') ? emitTriggerAction({type: 'VIEW', state: true}, record) : ''">
+              <ng-container *ngIf="header?.column === 'action'">
+                <ng-container *ngFor="let action of record[header?.column]">
+                  <button mat-icon-button *ngIf="action?.state" class="action-btn" [ngClass]="action?.classes"
+                    [matTooltip]="action.toolTip" (click)="emitTriggerAction(action, record)">
+                    <mat-icon>{{action.icon}}
+                    </mat-icon>
+                  </button>
+                </ng-container>
+              </ng-container>
+              <p *ngIf="header?.column !== 'action' && gfService.typeOf(record[header?.column]) !== 'object'">
+                {{record[header?.column]}}</p>
+              <ng-container
+                *ngIf="header?.column !== 'action' && gfService.typeOf(record[header?.column]) === 'object'">
+                <mat-icon [ngClass]="record[header?.column]?.class">{{record[header?.column]?.icon}}
+                </mat-icon>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="isHeaderField && !loader">
+            <ng-container *ngFor="let header of headers">
+              <ng-container [matColumnDef]="header?.column+'_filter'" [stickyEnd]="header?.column === 'action'">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div *ngIf="header?.column !== 'action' && header?.column !== 'selectionData'">
+                    <ng-container [ngSwitch]="header?.fieldData?.field?.fieldType">
+                      <app-text-box *ngSwitchCase="'textBox'" [field]="header?.fieldData?.field"
+                        [config]="header?.fieldData?.fieldConfig" [control]="header?.fieldData?.control">
+                      </app-text-box>
+                      <app-drop-down *ngSwitchCase="'dropDown'" [field]="header?.fieldData?.field"
+                        [config]="header?.fieldData?.fieldConfig" [control]="header?.fieldData?.control">
+                      </app-drop-down>
+                      <app-auto-complete *ngSwitchCase="'autoComplete'" [field]="header?.fieldData?.field"
+                        [config]="header?.fieldData?.fieldConfig" [control]="header?.fieldData?.control">
+                      </app-auto-complete>
+                    </ng-container>
+                  </div>
+                </th>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columns; sticky: true" class="record-head"></tr>
+          <ng-container *ngIf="isHeaderField && !loader">
+            <tr mat-header-row *matHeaderRowDef="filterColumns; sticky: true" class="record-filter">
+            </tr>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: columns;" class="record-row"></tr>
+        </table>
+        <div class="record-not-found" fxLayout="row" fxLayoutAlign="center center"
+          *ngIf="[null, undefined, ''].includes(record) || record.length == 0">
+          {{ locale.translate('no_record_found') }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- <ng-container *ngIf="loader"> -->
+  <loader [loader]="loader" [type]="'general'"></loader>
+  <ng-container *ngIf="![null, undefined, ''].includes(record) && record.length">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-paginator class="pagination" [length]="totalRecordCount" [pageSize]="pageSize"
+        (page)="emitPagination($event)" [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </div>
+  </ng-container>
+</div>
